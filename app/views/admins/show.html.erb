@@ -1,2 +1,21 @@
-<h1>Admins#show</h1>
+<h1>管理者ページトップ</h1>
 <p>Find me in app/views/admins/show.html.erb</p>
+<ul>
+<%= debug @companies %>
+<% @companies.each do |company| %>
+  <li>
+    <table>
+      <thead>
+        <th>会社名</th>
+        <th>会社員登録URL</th>
+        <th>代表者</th>
+      </thead>
+      <tbody>
+        <td><%= company.name %></td>
+        <td><%= company.url %></td>
+        <td><%= company.delegate || "未登録" %></td>
+      </tbody>
+    </table>
+  </li>
+<% end %>
+</ul>
