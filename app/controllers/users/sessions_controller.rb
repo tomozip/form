@@ -1,11 +1,6 @@
 class Users::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
 
-  def after_sign_up_path_for(resource)
-    admin_user_mail_sent_message_path
-  end
-
-
   # GET /resource/sign_in
   # def new
   #   super
