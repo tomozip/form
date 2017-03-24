@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :companies, only: [:create] do
     resources :companies_users, only: [:index] do
       get 'changeManager', on: :member
+      get 'registarManager', on: :member
     end
   end
 

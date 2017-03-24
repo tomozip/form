@@ -1,6 +1,7 @@
 <h1>社員一覧ページ</h1>
 <p>会社名： <%= @company.name %></p>
 <hr>
+<p><%= link_to '[戻る]', admin_path(current_admin.id) %></p>
 <p>Find me in app/views/conpanies_users/index.html.erb</p>
 <table>
   <thead>
@@ -16,11 +17,11 @@
       <td><%= user[:info].name %></td>
       <td><%= user[:info].email %></td>
       <td>
-      <%= if user[:manager] == 'delegate'
-        "代表"
-      else
-        link_to "代表者変更", changeManager_company_companies_user_path(params[:company_id], user[:companies_user_id])
-      end %>
+        <%= if @existsManager
+          user[:manager] == 'delegate' ? "代表" : link_to("代表者変更", changeManager_company_companies_user_path(params[:company_id], user[:companies_user_id]))
+        else
+          link_to '代表者登録', registarManager_company_companies_user_path(params[:company_id], user[:companies_user_id])
+        end %>
       </td>
     </tr>
   <% end %>
