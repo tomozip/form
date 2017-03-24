@@ -13,16 +13,18 @@
       <th>会社名</th>
       <th>パスワード</th>
       <th>代表者</th>
+      <th>link</th>
     </tr>
   </thead>
   <tbody>
   <% @companies.each_with_index do |company, index| %>
     <%# TODO: link_to 社員一覧ページを追加 %>
-    <tr>
-      <td><%= company.name %></td>
-      <td><%= company.password %></td>
-      <td><%= @companies_users[index] || "未登録" %></td>
-    </tr>
+      <tr>
+        <td><%= company.name %></td>
+        <td><%= company.password %></td>
+        <td><%= @companies_users[index] || "未登録" %></td>
+        <td><%= link_to "会社ページへ", company_companies_users_path(company.id)  %></td>
+      </tr>
   <% end %>
   </tbody>
 </table>

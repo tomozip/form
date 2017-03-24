@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'companies_users/index'
+
+  get 'conpanies_users/index'
+
   get 'companies/create'
 
   get 'admins/show'
@@ -11,7 +15,11 @@ Rails.application.routes.draw do
   end
 
   resources :admins, only: [:show]
-  resources :companies, only: [:create]
+  resources :companies, only: [:create] do
+    resources :companies_users, only: [:index] do
+      get 'changeManager', on: :member
+    end
+  end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
