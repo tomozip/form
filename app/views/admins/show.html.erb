@@ -1,15 +1,17 @@
 <h1>管理者ページトップ</h1>
 <p>Find me in app/views/admins/show.html.erb</p>
 <h3>法人管理</h3>
-<%= form_for @company.new do |f| %>
-  <%= f.text %>
+<%= form_for Company.new do |f| %>
+  <%= f.text_field :name, placeholder: '法人名'%>
+  <%= f.text_field :password, placeholder: 'パスワード' %>
+  <%= f.submit '追加' %>
 <% end %>
 <hr>
 <table>
   <thead>
     <tr>
       <th>会社名</th>
-      <th>会社員登録URL</th>
+      <th>パスワード</th>
       <th>代表者</th>
     </tr>
   </thead>
@@ -18,7 +20,7 @@
     <%# TODO: link_to 社員一覧ページを追加 %>
     <tr>
       <td><%= company.name %></td>
-      <td><%= company.url %></td>
+      <td><%= company.password %></td>
       <td><%= @companies_users[index] || "未登録" %></td>
     </tr>
   <% end %>

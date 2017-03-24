@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'companies/create'
+
   get 'admins/show'
 
   devise_for :admins, module: :admins
@@ -9,6 +11,7 @@ Rails.application.routes.draw do
   end
 
   resources :admins, only: [:show]
+  resources :companies, only: [:create]
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
