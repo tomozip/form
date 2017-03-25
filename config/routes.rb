@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   resources :users, only: [:show, :destroy] do
     get 'mypage', on: :member
     get 'manager', on: :member
-    resources :messages, only: [:create]
+    resources :messages, only: [:create, :destroy]
   end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

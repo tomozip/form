@@ -1,5 +1,15 @@
 <h1>代表者ページ</h1>
 <%= link_to '[戻る]', user_path(params[:id]) %>
+<section>
+  <ul>
+    <li>会社名
+      <p><%= @company.name %></p>
+    </li>
+    <li>パスワード
+      <p><%= @company.password %></p>
+    </li>
+  </ul>
+</section>
 <hr>
 <section>
   <h3>社員一覧</h3>
@@ -15,11 +25,14 @@
     </tbody>
   </table>
 </section>
-<br>
+<hr>
 <section>
   <h3>メッセージ</h3>
   <%= form_for [@user, @user.messages.build] do |f| %>
     <%= f.text_area :body, placeholder: 'メッセージを入力してください。' %>
     <%= f.submit '送信' %>
   <% end %>
+  <ul>
+    <%= render partial: 'message', collection: @messages %>
+  </ul>
 </section>

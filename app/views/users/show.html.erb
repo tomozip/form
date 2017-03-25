@@ -3,3 +3,8 @@
 
 <%= link_to "マイページ", mypage_user_path(params[:id]) %>
 <%= link_to '代表者ページ', manager_user_path(params[:id]) if @position == 'delegate' %>
+<hr>
+<section>
+  <h3>メッセージ</h3>
+  <%= render partial: 'message', collection: @messages   %>
+</section>
