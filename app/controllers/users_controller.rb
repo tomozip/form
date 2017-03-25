@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   end
 
   def manager
+    @user = User.find(params[:id])
     # 社員一覧を表示しようとしてる。
     company_id = CompaniesUser.find_by(user_id: params[:id]).company_id
     companies_users = CompaniesUser.where(company_id: company_id)
@@ -22,5 +23,7 @@ class UsersController < ApplicationController
       staff = User.find(companies_user.user_id)
       @staffs.push(staff)
     end
+    # メッセージ機能
+    @messages = Message.where(user_id: params[:id])
   end
 end
