@@ -1,0 +1,15 @@
+<h1>代表者ページ</h1>
+<%= link_to '[戻る]', user_path(params[:id]) %>
+<hr>
+<h3>社員一覧</h3>
+<table>
+  <thead>
+    <tr>
+      <th>社員名</th>
+      <th>メールアドレス</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render partial: 'staff', collection: @staffs %>
+  </tbody>
+</table>

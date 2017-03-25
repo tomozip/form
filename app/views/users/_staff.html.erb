@@ -1,0 +1,10 @@
+<tr>
+  <td><%= staff.name %></td>
+  <td><%= staff.email %></td>
+  <td><%= staff.id %></td>
+  <td>
+    <%= if staff.id != params[:id].to_i
+      link_to '[削除]', user_path(staff.id), method: :delete, data: {confirm: '削除しますか？'}
+    end %>
+  </td>
+</tr>
