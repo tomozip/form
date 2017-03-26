@@ -1,0 +1,8 @@
+<h1>アンケートページ</h1>
+<p><%= link_to '[戻る]', admin_path(current_admin.id) %></p>
+<p><%= link_to '[アンケート作成]', new_questionnaire_path %></p>
+<hr>
+<h3>アンケート一覧</h3>
+<ul>
+  <%= render partial: 'questionnaire', collection: @questionnaires %>
+</ul>
