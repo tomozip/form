@@ -8,7 +8,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     super
     if @user.id != nil
-      binding.pry
       CompaniesUser.create(company_id: current_company.id, user_id: @user.id, manager: 'general')
       mypage_user_path(current_user.id)
     end
