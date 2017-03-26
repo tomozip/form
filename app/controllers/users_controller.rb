@@ -3,6 +3,8 @@ class UsersController < ApplicationController
   before_action :log_out_company, only: [:show]
 
   def show
+    @user = User.find(current_user.id)
+    UserMailer.welcome_email(@user).deliver_later
     @position = CompaniesUser.find_by(user_id: params[:id]).manager
     if @position == 'delegate'
       @messages = Message.where(user_id: params[:id])
