@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
       log_in_company company
       redirect_to new_user_registration_path
     else
-      flash.now[:danger] = "invalid password." # 本当は正しくない
+      flash.now[:danger] = "invalid password."
       @companies = Company.all.select(:id, :name)
       render 'new'
     end
