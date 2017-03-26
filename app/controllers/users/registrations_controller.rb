@@ -6,11 +6,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    super
-    if @user.id != nil
-      CompaniesUser.create(company_id: current_company.id, user_id: @user.id, manager: 'general')
-      mypage_user_path(current_user.id)
+    super do
+      if resource.save
+        CompaniesUser.create(company_id: current_company.id, user_id: @user.id, manager: 'general')
+        UserMailer.welcome_email(@user).deliver_later
+      end
     end
+  end
+
+  # The path used after sign up.
+  def after_sign_up_path_for(resource)
+    user_path(@user.id)
   end
 
   private
@@ -59,11 +65,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_account_update_params
   #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
-  # end
-
-  # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
   # end
 
   # The path used after sign up for inactive accounts.
