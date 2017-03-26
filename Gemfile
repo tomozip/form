@@ -76,3 +76,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'rake', '< 12.0'
 gem 'carrierwave'
 gem 'rmagick'
+
+gem 'bootstrap-sass'
+gem 'autoprefixer-rails'
