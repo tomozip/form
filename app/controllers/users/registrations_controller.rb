@@ -9,7 +9,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super do
       if resource.save
         CompaniesUser.create(company_id: current_company.id, user_id: @user.id, manager: 'general')
-        UserMailer.welcome_email(@user).deliver_later
+        UserMailer.welcome_email(@user).deliver_now
       end
     end
   end
