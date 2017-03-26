@@ -2,17 +2,27 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
-  def after_update_path_for(resource)
+  before_action :block_unlogin, only: [:new]
+
+  # POST /resource
+  def create
+    super
+    if @user.id != nil
+      binding.pry
+      CompaniesUser.create(company_id: current_company.id, user_id: @user.id, manager: 'general')
       mypage_user_path(current_user.id)
+    end
   end
+
+  private
+    def block_unlogin
+      if !logged_in_company?
+        redirect_to login_path, alert: 'Log in as company before user registration'
+      end
+    end
 
   # GET /resource/sign_up
   # def new
-  #   super
-  # end
-
-  # POST /resource
-  # def create
   #   super
   # end
 

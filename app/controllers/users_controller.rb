@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+
+  before_action :log_out_company, only: [:show]
+
   def show
     @position = CompaniesUser.find_by(user_id: params[:id]).manager
     @messages = Message.where(user_id: params[:id])
