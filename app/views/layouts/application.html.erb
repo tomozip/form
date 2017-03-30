@@ -11,10 +11,10 @@
   <body>
     <header>
       <% if admin_signed_in? %>
-        <%= link_to '[ログアウト]', destroy_admin_session_path, method: :delete %>
+        <%= link_to '[管理者ログアウト]', destroy_admin_session_path, method: :delete %>
       <% end %>
       <% if user_signed_in? %>
-        <%= link_to '[ログアウト]', destroy_user_session_path, method: :delete %>
+        <%= link_to '[ユーザーログアウト]', destroy_user_session_path, method: :delete %>
       <% end %>
     </header>
     <p class="notice"><%= notice %></p>
