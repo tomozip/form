@@ -17,30 +17,3 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-
-// $("<input>").attr({ type: 'input' }).appendTo(form);
-
-  function questionnaireNew() {
-      const wrap = $('#category-select-wrap');
-      $('#category-select').change(() => {
-          const category = $("#category-select option:selected").val();
-          if (category == 'checkbox' || category == 'radio' || category == 'select')
-            $('<input>').attr({type: 'text'}).appendto(wrap)
-          else
-
-          switch (category) {
-            case 'input':
-
-              break;
-            case 'textarea':
-
-              break;
-            case 'checkbox':
-            case 'radio':
-            case 'select':
-
-              break;
-          }
-
-      });
-  }
