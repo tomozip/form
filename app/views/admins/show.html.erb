@@ -1,0 +1,30 @@
+<h1>管理者ページトップ</h1>
+<p>Find me in app/views/admins/show.html.erb</p>
+<h3>法人管理</h3>
+<%= form_for Company.new do |f| %>
+  <%= f.text_field :name, placeholder: '法人名' %>
+  <%= f.text_field :password, placeholder: 'パスワード' %>
+  <%= f.submit '追加' %>
+<% end %>
+<hr>
+<table>
+  <thead>
+    <tr>
+      <th>会社名</th>
+      <th>パスワード</th>
+      <th>代表者</th>
+      <th>link</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @companies.each_with_index do |company, index| %>
+    <%# TODO: link_to 社員一覧ページを追加 %>
+    <tr>
+      <td><%= company.name %></td>
+      <td><%= company.password %></td>
+      <td><%= @companies_users[index] || "未登録" %></td>
+      <td><%= link_to "会社ページへ", company_companies_users_path(company.id)  %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

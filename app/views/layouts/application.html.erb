@@ -9,6 +9,17 @@
   </head>
 
   <body>
+    <header>
+      <% if admin_signed_in? %>
+        <%= link_to '[ログアウト]', destroy_admin_session_path, method: :delete %>
+      <% end %>
+      <% if user_signed_in? %>
+        <%= link_to '[ログアウト]', destroy_user_session_path, method: :delete %>
+      <% end %>
+    </header>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+
     <%= yield %>
   </body>
 </html>
