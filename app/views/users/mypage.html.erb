@@ -1,0 +1,18 @@
+<h1>マイページ</h1>
+<%= link_to '[戻る]', user_path(params[:id]) %>
+<ul>
+  <li>
+    <p>名前</p>
+    <%= @user.name %>
+  </li>
+  <li>
+    <p>メールアドレス</p>
+    <%= @user.email %>
+  </li>
+  <li>
+    <p>プロフィール画像</p>
+    <% image = @user.image.to_s %>
+    <%= image == '' ? '未登録' : image_tag(image) %>
+  </li>
+</ul>
+<%= link_to '[編集]', edit_user_registration_path %>

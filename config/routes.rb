@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'users/show'
+
   get 'companies_users/index'
 
   get 'conpanies_users/index'
@@ -20,6 +22,9 @@ Rails.application.routes.draw do
       get 'changeManager', on: :member
       get 'registarManager', on: :member
     end
+  end
+  resources :users, only: [:show] do
+    get 'mypage', on: :member
   end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
