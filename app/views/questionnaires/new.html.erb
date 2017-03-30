@@ -1,0 +1,30 @@
+<h1>アンケート作成ページ</h1>
+<section>
+  <%= form_for [@questionnaire, @questionnaire.questions.build] do |f| %>
+    <%= f.hidden_field :category %> <%# TODO: valueは後からセット。 %>
+    <%= f.text_area :body, placeholder: '質問テキスト' %>
+  <% end %>
+</section>
+<%# TODO: 戻るボタンではquestionやchoiceを全削除 --> 勝手にされるのだろうか？？もしくはされなくても明示的に削除すべき？？ %>
+<%# TODO: ほぞんボタンで保存 %>
+<%# TODO: questionnaire作成ページに飛んだ時点でquestionnaireレコードを作成 %>
+<article class="questionnaire">
+  <input type="text" name="title" value="">
+  <select id="category-select" name="category">
+    <option value="input"></option>
+    <option value="input"></option>
+    <option value="input"></option>
+    <option value="input"></option>
+    <option value="input"></option>
+  </select>
+  <button type="button" id="category-btn"></button>
+  <div id="questions-wrap">
+      <%= form_for @questionnaire do |f| %>
+        <%= f.label :title %>
+        <%= f.text_field :title %>
+        <%= f.submit '送信' %>
+      <% end %>
+      quesionnaireとque,que_choiceは別だから、questionnaireだけ別でフォーム作っちゃう。そんで送信ボタンだけjsで管理してあげればいい。
+      queとque_choiはajaxで一気に送信しちゃう。
+  </div>
+</article>
