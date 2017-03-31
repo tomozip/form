@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'questions/create'
+
+  get 'questions/destroy'
+
   devise_for :admins, module: :admins
   devise_for :users, module: :users
   devise_scope :user do
@@ -26,7 +30,9 @@ Rails.application.routes.draw do
   delete 'logout'  => 'sessions#destroy'
 
   scope '/admin' do
-    resources :questionnaires, only: [:new, :create, :destroy, :index]
+    resources :questionnaires, only: [:show, :create, :destroy, :index] do
+      resources :questions, only: [:create, :destroy]
+    end
   end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

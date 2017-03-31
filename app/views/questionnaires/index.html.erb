@@ -1,6 +1,10 @@
 <h1>アンケートページ</h1>
 <p><%= link_to '[戻る]', admin_path(current_admin.id) %></p>
-<p><%= link_to '[アンケート作成]', new_questionnaire_path %></p>
+<%= form_for @questionnaire do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+  <%= f.submit '[アンケート作成]' %>
+<% end %>
 <hr>
 <h3>アンケート一覧</h3>
 <ul>

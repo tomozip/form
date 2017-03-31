@@ -1,0 +1,5 @@
+<%= form_for [@questionnaire, @questionnaire.questions.build], remote: true do |f| %>
+  <%= f.text_field :category %>
+  <%= f.text_area :body %>
+  <%= f.submit '保存' %>
+<% end %>
