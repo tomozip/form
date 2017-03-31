@@ -1,1 +1,3 @@
-<li><%= questionnaire.title %></li>
+<%= link_to questionnaire_path(questionnaire.id) do %>
+  <li><%= questionnaire.title %></li>
+<% end %>

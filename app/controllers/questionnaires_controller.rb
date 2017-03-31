@@ -6,9 +6,8 @@ class QuestionnairesController < ApplicationController
   end
 
   def create
-    Questionnaire.create(questionnaire_params)
-    binding.pry
-    # redirect_to questionnaire_question_path()
+    questionnaire = Questionnaire.create(questionnaire_params)
+    redirect_to questionnaire_path(questionnaire.id)
   end
 
   def destroy
@@ -16,7 +15,17 @@ class QuestionnairesController < ApplicationController
   end
 
   def show
+    @questionnaire = Questionnaire.find(params[:id])
+    # ajax_action if request.xhr?
+  end
 
+  def ajax_form
+    @question_info = {
+      category: params[:category_select],
+      numChoice: params[:numChoice]
+    }
+    @questionnaire = Questionnaire.find(params[:id])
+    render 'show'
   end
 
   private

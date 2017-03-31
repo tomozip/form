@@ -17,3 +17,40 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+
+function questionnaire() {
+    const wrap = $('#category-select-wrap'),
+        question_wrap = $('#question-field-wrap');
+    $('#category_select').change(() => {
+        const category = $("#category_select").val(),
+            numChoice_field = $('#numChoice');
+        if (category == 'checkbox' || category == 'radio' || category == 'selectbox') {
+            numChoice_field.length || $('#category_select').after('<input type="text" id="numChoice" name="numChoice" placeholder="選択肢の個数">')
+        } else {
+            numChoice_field.length && numChoice_field.remove();
+        }
+    });
+
+    $('#category-btn').on('click', () => {
+        const post_data = {
+          category: $('#category-select').val(),
+          numChoice_field: $('#numChoice').val()
+        };
+        // $.ajax({
+        //   async: true
+        //   url: $('#category-btn').attr('href'),
+        //   type: 'POST',
+        //   data: post_data,
+        //   dataType: 'json',
+        //   cache: false
+        // });
+        $.ajax({
+          type: "POST",
+          url: $('#category-btn').attr('href'),
+          cache: false,
+          data: post_data,
+          dataType: 'json'
+        });
+    });
+}

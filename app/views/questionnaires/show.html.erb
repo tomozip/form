@@ -1,0 +1,38 @@
+<h1>アンケート作成ページ</h1>
+<section>
+</section>
+<%# TODO: 戻るボタンではquestionやchoiceを全削除 --> 勝手にされるのだろうか？？もしくはされなくても明示的に削除すべき？？ %>
+<%# TODO: ほぞんボタンで保存 %>
+<%# TODO: questionnaire作成ページに飛んだ時点でquestionnaireレコードを作成 %>
+<article class="questionnaire">
+  <div id="questions-wrap">
+    <ol>
+    <% @questionnaire.questions.each do |question| %>
+      <li>
+        <p><%= question.body %></p>
+        <% question.question_choices.each do |choice| %>
+          <%= choice.body %>
+        <% end %>
+      </li>
+    <% end %>
+    </ol>
+    <!-- <div id="question-field-wrap"></div> -->
+  </div>
+  <hr>
+  <div id="category-select-wrap">
+    <p>質問追加</p>
+    <%= form_tag ajax_form_questionnaire_path(params[:id]), remote: true do %>
+      <%= select_tag 'category_select', options_for_select({
+        '自由記入(短文)' => 'input',
+        '自由記入' => 'textarea',
+        '複数選択' => 'checkbox',
+        '一択(セレクトボックス)' => 'selectbox',
+        '一択(チェックボックス)' => 'radio'
+      }) %>
+      <%= submit_tag '質問追加' %>
+    <% end %>
+  </div>
+</article>
+<script type="text/javascript">
+    questionnaire();
+</script>
