@@ -1,11 +1,12 @@
 <h1>アンケート作成ページ</h1>
 <p>タイトル: <%= @questionnaire.title %></p>
 <p><%= @questionnaire.description %></p>
-<%= link_to '[確定]', update_status_questionnaire_path(params[:id]) %>
-<%= link_to '[保存して戻る]', questionnaires_path %>
-<%# TODO: 戻るボタンではquestionやchoiceを全削除 --> 勝手にされるのだろうか？？もしくはされなくても明示的に削除すべき？？ %>
-<%# TODO: ほぞんボタンで保存 %>
-<%# TODO: questionnaire作成ページに飛んだ時点でquestionnaireレコードを作成 %>
+<% if @questionnaire.status == 'editing' %>
+  <%= link_to '[確定]', update_status_questionnaire_path(params[:id]) if !@questionnaire.questions.empty? %>
+  <%= link_to '[保存して戻る]', questionnaires_path %>
+<% else %>
+  <%= link_to '[戻る]', questionnaires_path %>
+<% end %>
 <article class="questionnaire">
   <div id="questions-wrap">
     <ol>
@@ -23,19 +24,21 @@
     </ol>
   </div>
   <hr>
-  <div id="category-select-wrap">
-    <p>質問追加</p>
-    <%= form_tag ajax_form_questionnaire_path(params[:id]), remote: true do %>
-      <%= select_tag 'category_select', options_for_select({
-        '自由記入(短文)' => 'input',
-        '自由記入' => 'textarea',
-        '複数選択' => 'checkbox',
-        '一択(セレクトボックス)' => 'selectbox',
-        '一択(チェックボックス)' => 'radio'
-      }) %>
-      <%= submit_tag '質問追加' %>
-    <% end %>
-  </div>
+  <% if @questionnaire.status == 'editing' %>
+    <div id="category-select-wrap">
+      <p>質問追加</p>
+      <%= form_tag ajax_form_questionnaire_path(params[:id]), remote: true do %>
+        <%= select_tag 'category_select', options_for_select({
+          '自由記入(短文)' => 'input',
+          '自由記入' => 'textarea',
+          '複数選択' => 'checkbox',
+          '一択(セレクトボックス)' => 'selectbox',
+          '一択(チェックボックス)' => 'radio'
+        }) %>
+        <%= submit_tag '質問追加' %>
+      <% end %>
+    </div>
+  <% end %>
 </article>
 <script type="text/javascript">
     questionnaire();
