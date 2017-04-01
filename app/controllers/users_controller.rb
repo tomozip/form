@@ -1,7 +1,17 @@
 class UsersController < ApplicationController
+
+  before_action :log_out_company, only: [:show]
+
   def show
     @position = CompaniesUser.find_by(user_id: params[:id]).manager
-    @messages = Message.where(user_id: params[:id])
+    if @position == 'delegate'
+      @messages = Message.where(user_id: params[:id])
+    else
+      company_id = CompaniesUser.find_by(user_id: params[:id]).company_id
+      manager_id = CompaniesUser.find_by(company_id: company_id, manager: 'delegate').user_id
+      @messages = Message.where(user_id: manager_id)
+    end
+
   end
 
   def destroy
