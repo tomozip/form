@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324031308) do
+ActiveRecord::Schema.define(version: 20170325050427) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -47,6 +47,14 @@ ActiveRecord::Schema.define(version: 20170324031308) do
     t.index ["user_id"], name: "index_companies_users_on_user_id", using: :btree
   end
 
+  create_table "messages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "body"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -68,4 +76,5 @@ ActiveRecord::Schema.define(version: 20170324031308) do
 
   add_foreign_key "companies_users", "companies"
   add_foreign_key "companies_users", "users"
+  add_foreign_key "messages", "users"
 end
