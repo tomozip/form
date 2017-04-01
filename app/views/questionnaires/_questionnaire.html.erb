@@ -1,3 +1,7 @@
 <%= link_to questionnaire_path(questionnaire.id) do %>
-  <li><%= questionnaire.title %></li>
+  <li>
+    <%= questionnaire.title %>
+    <%= link_to '[削除]', questionnaire_path(questionnaire.id), method: :delete, data: {confirm: '削除しますか？'} %>
+    <p><%= questionnaire.description %></p>
+  </li>
 <% end %>

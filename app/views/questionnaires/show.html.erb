@@ -1,6 +1,8 @@
 <h1>アンケート作成ページ</h1>
-<%= link_to '[戻る]', questionnaire_path(params[:id]), method: :delete %>
-<%= link_to '[保存]', questionnaires_path %>
+<p>タイトル: <%= @questionnaire.title %></p>
+<p><%= @questionnaire.description %></p>
+<%= link_to '[確定]', update_status_questionnaire_path(params[:id]) %>
+<%= link_to '[保存して戻る]', questionnaires_path %>
 <%# TODO: 戻るボタンではquestionやchoiceを全削除 --> 勝手にされるのだろうか？？もしくはされなくても明示的に削除すべき？？ %>
 <%# TODO: ほぞんボタンで保存 %>
 <%# TODO: questionnaire作成ページに飛んだ時点でquestionnaireレコードを作成 %>

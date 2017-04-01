@@ -31,9 +31,16 @@ class QuestionnairesController < ApplicationController
     render 'show'
   end
 
+  def update_status
+    questionnaire = Questionnaire.find(params[:id])
+    questionnaire.status = 'sent'
+    questionnaire.save
+    redirect_to questionnaires_path
+  end
+
   private
     def questionnaire_params
-      params.require(:questionnaire).permit(:title)
+      params.require(:questionnaire).permit(:title, :description)
     end
 
 end

@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   scope '/admin' do
     resources :questionnaires, only: [:show, :create, :destroy, :index] do
       post "ajax_form", on: :member
+      get "update_status", on: :member
       resources :questions, only: [:create, :destroy]
     end
   end
