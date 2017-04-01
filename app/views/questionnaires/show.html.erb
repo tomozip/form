@@ -11,7 +11,8 @@
     <ol>
     <% @questionnaire.questions.each do |question| %>
       <li>
-        <p><%= question.body %></p>
+        <%= question.body %>
+        <p>（<%= to_text(question.category) %>）</p>
         <ul>
         <% question.question_choices.each do |choice| %>
           <li><%= choice.body %></li>
