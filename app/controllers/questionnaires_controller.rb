@@ -24,7 +24,7 @@ class QuestionnairesController < ApplicationController
   def ajax_form
     @question_info = {
       category: params[:category_select],
-      numChoice: params[:numChoice]
+      num_choice: params[:num_choice]
     }
     @questionnaire = Questionnaire.find(params[:id])
     @question = @questionnaire.questions.build

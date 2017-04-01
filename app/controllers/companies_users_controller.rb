@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CompaniesUsersController < ApplicationController
   def index
     @company = Company.find(params[:company_id])
@@ -5,11 +7,9 @@ class CompaniesUsersController < ApplicationController
     @users = []
     @existsManager = false
     @companies_users.each do |companies_user|
-      if companies_user.manager == 'delegate'
-        @existsManager = true
-      end
+      @existsManager = true if companies_user.manager == 'delegate'
       user = User.find(companies_user.user_id)
-      @users.push({info: user, manager: companies_user.manager, companies_user_id: companies_user.id})
+      @users.push(info: user, manager: companies_user.manager, companies_user_id: companies_user.id)
     end
   end
 
@@ -26,5 +26,4 @@ class CompaniesUsersController < ApplicationController
     new_manager.update_attribute(:manager, 'delegate')
     redirect_to company_companies_users_path(params[:company_id])
   end
-
 end
