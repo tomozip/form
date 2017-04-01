@@ -24,16 +24,16 @@ function questionnaire() {
         question_wrap = $('#question-field-wrap');
     $('#category_select').change(() => {
         const category = $("#category_select").val(),
-            numChoice_field = $('#numChoice');
+            num_choice_field = $('#num_choice');
         if (category == 'checkbox' || category == 'radio' || category == 'selectbox') {
-            if (!numChoice_field.length) {
-                $('#category_select').after('<select id="numChoice" name="numChoice"></select>');
+            if (!num_choice_field.length) {
+                $('#category_select').after('<select id="num_choice" name="num_choice"></select>');
                 for (var i = 2; i < 11 ; i++) {
-                    $('#numChoice').append('<option value="' + i + '">' + i + '個</option>')
+                    $('#num_choice').append('<option value="' + i + '">' + i + '個</option>')
                 }
             }
         } else {
-            numChoice_field.length && numChoice_field.remove();
+            num_choice_field.length && num_choice_field.remove();
         }
     });
 }
