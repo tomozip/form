@@ -11,7 +11,9 @@ class QuestionnairesController < ApplicationController
   end
 
   def destroy
-
+    questionnaire = Questionnaire.find(params[:id])
+    questionnaire.destroy
+    redirect_to questionnaires_path
   end
 
   def show
@@ -25,6 +27,7 @@ class QuestionnairesController < ApplicationController
       numChoice: params[:numChoice]
     }
     @questionnaire = Questionnaire.find(params[:id])
+    @question = @questionnaire.questions.build
     render 'show'
   end
 
@@ -32,4 +35,5 @@ class QuestionnairesController < ApplicationController
     def questionnaire_params
       params.require(:questionnaire).permit(:title)
     end
+
 end

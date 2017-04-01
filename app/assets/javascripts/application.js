@@ -26,31 +26,14 @@ function questionnaire() {
         const category = $("#category_select").val(),
             numChoice_field = $('#numChoice');
         if (category == 'checkbox' || category == 'radio' || category == 'selectbox') {
-            numChoice_field.length || $('#category_select').after('<input type="text" id="numChoice" name="numChoice" placeholder="選択肢の個数">')
+            if (!numChoice_field.length) {
+                $('#category_select').after('<select id="numChoice" name="numChoice"></select>');
+                for (var i = 2; i < 11 ; i++) {
+                    $('#numChoice').append('<option value="' + i + '">' + i + '個</option>')
+                }
+            }
         } else {
             numChoice_field.length && numChoice_field.remove();
         }
-    });
-
-    $('#category-btn').on('click', () => {
-        const post_data = {
-          category: $('#category-select').val(),
-          numChoice_field: $('#numChoice').val()
-        };
-        // $.ajax({
-        //   async: true
-        //   url: $('#category-btn').attr('href'),
-        //   type: 'POST',
-        //   data: post_data,
-        //   dataType: 'json',
-        //   cache: false
-        // });
-        $.ajax({
-          type: "POST",
-          url: $('#category-btn').attr('href'),
-          cache: false,
-          data: post_data,
-          dataType: 'json'
-        });
     });
 }

@@ -1,15 +1,18 @@
 <div id="question-field-box">
   <%= form_for [@questionnaire, @questionnaire.questions.build] do |f| %>
-    <%= f.text_area :body, placeholder: '質問文' %>
+    <%= f.text_area :body, placeholder: '質問文', required: true %>
     <%= f.hidden_field :category, value: question_info[:category] %>
+    <% if question_info[:category] == 'selectbox' || question_info[:category] == 'checkbox' || question_info[:category] == 'radio' %>
+      <% question_info[:numChoice].to_i.times do |i| %>
+        <%= fields_for QuestionChoice.new do |choice| %>
+          <%= choice.fields_for "choice#{i}".to_sym do |index| %>
+            <p><%= index.text_field :body, placeholder: '選択肢テキスト', required: true %></p>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
     <%= f.submit '保存' %>
     <%= link_to '[削除]', questionnaire_path(params[:id]) %>
   <% end %>
-  <% if question_info['category'] == 'selectbox' ||question_info['category'] == 'checkbox' ||question_info['category'] == 'radio' %>
-    <% question_info['numChoice'].to_i.times do |i| %>
-      <%= fields_for @page.category do |category| %>
-        <%= category.text_field :name %>
-      <% end %>
-    <% end %>
-  <% end %>
+
 </div>
