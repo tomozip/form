@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170402041123) do
+ActiveRecord::Schema.define(version: 20170402135129) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -65,6 +65,15 @@ ActiveRecord::Schema.define(version: 20170402041123) do
     t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
+  create_table "question_answers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "question_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["question_id"], name: "index_question_answers_on_question_id", using: :btree
+    t.index ["user_id"], name: "index_question_answers_on_user_id", using: :btree
+  end
+
   create_table "question_choices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "question_id"
     t.string   "body"
@@ -114,6 +123,8 @@ ActiveRecord::Schema.define(version: 20170402041123) do
   add_foreign_key "companies_users", "companies"
   add_foreign_key "companies_users", "users"
   add_foreign_key "messages", "users"
+  add_foreign_key "question_answers", "questions"
+  add_foreign_key "question_answers", "users"
   add_foreign_key "question_choices", "questions"
   add_foreign_key "questions", "questionnaires"
 end

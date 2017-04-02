@@ -8,5 +8,6 @@ class User < ApplicationRecord
   has_many :companies, through: :companies_users
   has_many :messages, dependent: :delete_all
   has_many :answers, dependent: :delete_all
+  has_many :question_answers, dependent: :destroy
   mount_uploader :image, ImageUploader
 end
