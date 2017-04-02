@@ -7,6 +7,11 @@
   <ol>
     <%= render partial: 'question', collection: @questions, locals: { f: f } %>
   </ol>
-  <%= f.submit '回答送信' %>
-  <button type="button" id="temporary-btn">保存して戻る</button>
+  <%= f.submit '回答送信', id: 'normal' %>
+  <%= f.submit '保存して戻る', name: 'temporary', id: 'temporary' %>
+
 <% end %>
+
+<script type="text/javascript">
+  answer_new();
+</script>
