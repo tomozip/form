@@ -2,7 +2,7 @@
 <p>タイトル: <%= @questionnaire.title %></p>
 <p><%= @questionnaire.description %></p>
 <% if @questionnaire.status == 'editing' %>
-  <%= link_to '[確定]', update_status_questionnaire_path(params[:id]) if !@questionnaire.questions.empty? %>
+  <%= link_to '[確定]', update_status_questionnaire_path(params[:id]) unless @questionnaire.questions.empty? %>
   <%= link_to '[保存して戻る]', questionnaires_path %>
 <% else %>
   <%= link_to '[戻る]', questionnaires_path %>

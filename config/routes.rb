@@ -19,7 +19,10 @@ Rails.application.routes.draw do
     get 'mypage', on: :member
     get 'manager', on: :member
     resources :messages, only: [:create, :destroy]
-    resources :answers, only: [:create, :destroy, :show, :index]
+    resources :questionnaires, only: [] do
+      get 'questionnaire_list', on: :collection
+      resource :answer
+    end
   end
 
   get    'login'   => 'sessions#new'
@@ -27,7 +30,7 @@ Rails.application.routes.draw do
   delete 'logout'  => 'sessions#destroy'
 
   scope '/admin' do
-    resources :questionnaires, only: [:show, :create, :destroy, :index] do
+    resources :questionnaires, only: [:show, :create, :destroy, :index, :edit, :show] do
       post "ajax_form", on: :member
       get "update_status", on: :member
       resources :questions, only: [:create, :destroy]

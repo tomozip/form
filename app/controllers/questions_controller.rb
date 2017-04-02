@@ -8,7 +8,8 @@ class QuestionsController < ApplicationController
     redirect_to questionnaire_path(params[:questionnaire_id])
   end
 
-  def destroy; end
+  def destroy
+  end
 
   private
 
