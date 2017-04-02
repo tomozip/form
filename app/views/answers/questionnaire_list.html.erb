@@ -1,0 +1,16 @@
+<h1>アンケートページ</h1>
+<%= link_to '[戻る]', user_path(params[:user_id]) %>
+<h3>回答済みアンケート</h3>
+<ul>
+  <%= render partial: 'answers/devide_questionnaire', collection: @questionnaires[:answered], as: 'questionnaire', locals: {status: 'answered'} %>
+</ul>
+<hr>
+<h3>回答中アンケート</h3>
+<ul>
+  <%= render partial: 'answers/devide_questionnaire', collection: @questionnaires[:answering], as: 'questionnaire', locals: {status: 'answering'} %>
+</ul>
+<hr>
+<h3>未回答アンケート</h3>
+<ul>
+  <%= render partial: 'answers/devide_questionnaire', collection: @questionnaires[:not_yet], as: 'questionnaire', locals: {status: 'not_yet'} %>
+</ul>
