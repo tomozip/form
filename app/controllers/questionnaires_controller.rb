@@ -54,7 +54,7 @@ class QuestionnairesController < ApplicationController
           answered_questionnaire_ids.push(questionnaire_id)
         end
       end
-      questionnaires = Questionnaire.all
+      questionnaires = Questionnaire.where(status: 'sent')
       @questionnaires = { answered: [], answering: [], not_yet: [] }
       questionnaires.each do |questionnaire|
         questionnaire_id = questionnaire.id

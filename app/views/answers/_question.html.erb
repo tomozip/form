@@ -1,20 +1,22 @@
 <li>
   <p><%= question.body %></p>
-  <%= f.fields_for "question#{question_counter}".to_sym do |t| %>
+  <%= f.fields_for "#{question.id}".to_sym do |t| %>
     <% case question.category
       when 'input' %>
-      <%= t.text_field :body, placeholder: '回答', required: true %>
+      <%= t.text_field :body, placeholder: '回答' %>
     <% when 'textarea' %>
-      <%= t.text_area :body, placeholder: '回答', required: true %>
+      <%= t.text_area :body, placeholder: '回答' %>
     <% when 'selectbox' %>
       <%= t.select :question_choice_id, @options[question.id].first.map {|choice| [choice.body, choice.id]},
-      {include_blank: true}, {required: true} %>
+      {include_blank: true}, {} %>
     <% when 'checkbox' %>
       <% @options[question.id].first.each_with_index do |choice, index| %>
-        <%= t.check_box "#{index}[question_choice_id]", value: choice.id %><%= choice.body %>
+        <%= t.check_box "#{index}[question_choice_id]", {}, choice.id, false %><%= choice.body %>
       <% end %>
     <% when 'radio' %>
-      <%= t.radio_button :question_choice_id, value: choice.id %><%= choice.body %>
+      <% @options[question.id].first.each do |choice| %>
+        <%= t.radio_button 'question_choice_id', choice.id, {} %><%= choice.body %>
+      <% end %>
     <% end %>
     <%= t.hidden_field :category, value: question.category %>
   <% end %>
