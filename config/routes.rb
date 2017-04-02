@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'questions/create'
-
-  get 'questions/destroy'
-
   devise_for :admins, module: :admins
   devise_for :users, module: :users
   devise_scope :user do
@@ -23,6 +19,7 @@ Rails.application.routes.draw do
     get 'mypage', on: :member
     get 'manager', on: :member
     resources :messages, only: [:create, :destroy]
+    resources :answers, only: [:create, :destroy, :show, :index]
   end
 
   get    'login'   => 'sessions#new'
