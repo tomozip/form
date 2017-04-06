@@ -1,36 +1,56 @@
 class AnswersController < ApplicationController
 
   def new
-    @user = User.find(params[:user_id])
-    @questionnaire = Questionnaire.find(params[:questionnaire_id])
-    @questions = Question.where(questionnaire_id: @questionnaire.id)
-    @options = {}
-    @questions.each do |question|
-      category = question.category
-      if category == 'selectbox' || category == 'checkbox' || category == 'radio'
-        question_choices = QuestionChoice.where(question_id: question.id)
-        @options.store(question.id, [question_choices])
-      end
-    end
+    form_set
     @answer = Answer.new
   end
 
   def create
     if params[:temporary]
-      # answer_create('answering')
+      answer_create('answering')
       create_temporary_question
     else
-      # answer_create('answered')
+      answer_create('answered')
       create_question
     end
     redirect_to questionnaire_list_user_questionnaires_path(params[:user_id])
   end
 
-  def show
-
+  def edit
+    form_set
+    @answer = Answer.find_by(user_id: params[:user_id], questionnaire_id: params[:questionnaire_id])
+    @answers = {}
+    @answered_question_ids = []
+    question_ids = Question.where(questionnaire_id: params[:questionnaire_id])
+    question_answers = QuestionAnswer.where(question_id: question_ids, user_id: params[:user_id])
+    question_answers.each do |question_answer|
+      question_id = question_answer.question_id
+      @answered_question_ids.push(question_id)
+      category = Question.find(question_id)[:category]
+      case category
+      when 'input', 'textarea'
+        body = AnswerText.find_by(question_answer_id: question_answer.id).body
+        @answers[question_id.to_s] = {category: category, body: body}
+      when 'selectbox', 'radio'
+        question_choice_id = AnswerChoice.find_by(question_answer_id: question_answer.id).question_choice_id
+        @answers[question_id.to_s] = {category: category, question_choice_id: question_choice_id}
+      when 'checkbox'
+        temporary_ids = AnswerChoice.where(question_answer_id: question_answer.id).select(:question_choice_id)
+        question_choice_ids = []
+        temporary_ids.each do |value|
+          question_choice_ids.push(value.question_choice_id)
+        end
+        @answers[question_id.to_s] = {category: category, question_choice_ids: question_choice_ids}
+      end
+    end
+    # @answers.empty? => true
   end
 
   def update
+
+  end
+
+  def show
 
   end
 
@@ -38,6 +58,20 @@ class AnswersController < ApplicationController
   end
 
   private
+    def form_set
+      @user = User.find(params[:user_id])
+      @questionnaire = Questionnaire.find(params[:questionnaire_id])
+      @questions = Question.where(questionnaire_id: @questionnaire.id)
+      @options = {}
+      @questions.each do |question|
+        category = question.category
+        if category == 'selectbox' || category == 'checkbox' || category == 'radio'
+          question_choices = QuestionChoice.where(question_id: question.id)
+          @options.store(question.id, [question_choices])
+        end
+      end
+    end
+
     def answer_create(status)
       Answer.create(
         user_id: params[:user_id],
