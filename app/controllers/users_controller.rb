@@ -9,8 +9,11 @@ class UsersController < ApplicationController
       @messages = Message.where(user_id: params[:id])
     else
       company_id = CompaniesUser.find_by(user_id: params[:id]).company_id
-      manager_id = CompaniesUser.find_by(company_id: company_id, manager: 'delegate').user_id
-      @messages = Message.where(user_id: manager_id)
+      manager = CompaniesUser.find_by(company_id: company_id, manager: 'delegate')
+      unless manager.nil?
+        manager_id = CompaniesUser.find_by(company_id: company_id, manager: 'delegate').user_id
+        @messages = Message.where(user_id: manager_id)
+      end
     end
 
   end
