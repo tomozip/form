@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     resources :messages, only: [:create, :destroy]
     resources :questionnaires, only: [] do
       get 'questionnaire_list', on: :collection
-      resource :answer
+      resource :answer, except: [:destroy]
     end
   end
 
