@@ -6,12 +6,43 @@ class AnswersController < ApplicationController
   end
 
   def create
+    que_answers = params.require(:answer)
+    if params[:temporary] # 一時保存なら
+      create_answer('answering')
+      que_answers.each_key { |key| create_temporary_que_answer(key) }
+    else # 完全送信なら
+      create_answer('answered')
+      que_answers.each_key { |key| create_que_answer(key) }
+    end
+    redirect_to questionnaire_list_user_questionnaires_path(params[:user_id])
+  end
+
+  def update
+    que_answers = params.require(:answer)
+    question_ids = Question.where(questionnaire_id: params[:questionnaire_id]).pluck(:id)
+    question_answers = QuestionAnswer.where(question_id: question_ids)
+    answered_question_ids = question_answers.pluck(:question_id)
     if params[:temporary]
-      answer_create('answering')
-      create_temporary_question
+      que_answers.each_key do |key|
+        question_id = key.to_i
+        if answered_question_ids.include?(question_id)
+          update_temporary_que_answer(key, question_id, question_answers)
+        else
+          create_temporary_que_answer(key)
+        end
+      end
     else
-      answer_create('answered')
-      create_question
+      update_answer
+      que_answers.each_key do |key|
+        question_id = key.to_i
+        if answered_question_ids.include?(question_id)
+          # 回答済みなら
+          update_temporary_que_answer(key, question_id, question_answers)
+        else
+          # 未回答なら
+          create_que_answer(key)
+        end
+      end
     end
     redirect_to questionnaire_list_user_questionnaires_path(params[:user_id])
   end
@@ -20,12 +51,11 @@ class AnswersController < ApplicationController
     form_set
     @answer = Answer.find_by(user_id: params[:user_id], questionnaire_id: params[:questionnaire_id])
     @answers = {}
-    @answered_question_ids = []
     question_ids = Question.where(questionnaire_id: params[:questionnaire_id])
     question_answers = QuestionAnswer.where(question_id: question_ids, user_id: params[:user_id])
+    @answered_question_ids = question_answers.pluck(:question_id)
     question_answers.each do |question_answer|
       question_id = question_answer.question_id
-      @answered_question_ids.push(question_id)
       category = Question.find(question_id)[:category]
       case category
       when 'input', 'textarea'
@@ -44,10 +74,6 @@ class AnswersController < ApplicationController
       end
     end
     # @answers.empty? => true
-  end
-
-  def update
-
   end
 
   def show
@@ -72,7 +98,7 @@ class AnswersController < ApplicationController
       end
     end
 
-    def answer_create(status)
+    def create_answer(status)
       Answer.create(
         user_id: params[:user_id],
         questionnaire_id: params[:questionnaire_id],
@@ -80,23 +106,64 @@ class AnswersController < ApplicationController
       )
     end
 
-    def create_question
-      params.require(:answer).each do |key, value|
-        question_answer_id = create_question_answer(key.to_i)
-        category =  params.require(:answer).require(key.to_sym).require(:category)
-        case category
-        when 'input', 'textarea'
-          answer_text_params = params.require(:answer).require(key.to_sym).permit(:body)
-          answer_text_params[:question_answer_id] = question_answer_id
-          AnswerText.create(answer_text_params)
-        when 'selectbox', 'radio'
-          answer_choice_params = params.require(:answer).require(key.to_sym).permit(:question_choice_id)
+    def update_answer
+      answer = Answer.find_by(
+        user_id: params[:user_id],
+        questionnaire_id: params[:questionnaire_id]
+      )
+      answer.update(status: 'answered')
+    end
+
+    def create_que_answer(key)
+      que_answer = params.require(:answer).require(key.to_sym)
+      question_answer_id = create_simple_que_answer(key.to_i)
+      case que_answer[:category]
+      when 'input', 'textarea'
+        answer_text_params = que_answer.permit(:body)
+        answer_text_params[:question_answer_id] = question_answer_id
+        AnswerText.create(answer_text_params)
+      when 'selectbox', 'radio'
+        answer_choice_params = que_answer.permit(:question_choice_id)
+        answer_choice_params[:question_answer_id] = question_answer_id
+        AnswerChoice.create(answer_choice_params)
+      when 'checkbox'
+        que_answer.each_key do |index|
+          next if index == 'category'
+          answer_choice_params = que_answer[index].permit(:question_choice_id)
           answer_choice_params[:question_answer_id] = question_answer_id
           AnswerChoice.create(answer_choice_params)
-        when 'checkbox'
-          params.require(:answer).require(key.to_sym).each do |key2, value2|
-            next if key2 == 'category'
-            answer_choice_params = params.require(:answer).require(key.to_sym).require(key2.to_sym).permit(:question_choice_id)
+        end
+      end
+    end
+
+    def create_temporary_que_answer(key)
+      # 一時保存の場合はview側のjsで空白を弾かないためcontroller側で内容がnilじゃないか毎回確かめる。
+      que_answer = params.require(:answer).require(key.to_sym)
+      question_id = key.to_i
+      case que_answer[:category]
+      when 'input', 'textarea'
+        value_isNull = que_answer[:body].empty?
+        unless value_isNull
+          question_answer_id = create_simple_que_answer(question_id)
+          answer_text_params = que_answer.permit(:body)
+          answer_text_params[:question_answer_id] = question_answer_id
+          AnswerText.create(answer_text_params)
+        end
+      when 'selectbox', 'radio'
+        value_isNull = que_answer[:question_choice_id].blank?
+        unless value_isNull
+          question_answer_id = create_simple_que_answer(question_id)
+          answer_choice_params = que_answer.permit(:question_choice_id)
+          answer_choice_params[:question_answer_id] = question_answer_id
+          AnswerChoice.create(answer_choice_params)
+        end
+      when 'checkbox'
+        value_isNull = que_answer.length <= 1
+        unless value_isNull
+          question_answer_id = create_simple_que_answer(question_id)
+          que_answer.each_key do |index|
+            next if index == 'category'
+            answer_choice_params = que_answer[index].permit(:question_choice_id)
             answer_choice_params[:question_answer_id] = question_answer_id
             AnswerChoice.create(answer_choice_params)
           end
@@ -104,85 +171,71 @@ class AnswersController < ApplicationController
       end
     end
 
-    def create_temporary_question
-      params.require(:answer).each do |key, value|
-        category = params.require(:answer).require(key.to_sym).require(:category)
-        case category
+    def update_que_answer(key, question_id, question_answers)
+      que_answer = params.require(:answer).require(key.to_sym)
+        case que_answer[:category]
         when 'input', 'textarea'
-          value_isNull = params.require(:answer).require(key.to_sym)[:body].empty?
-          unless value_isNull
-            question_answer_id = create_question_answer(key.to_i)
-            answer_text_params = params.require(:answer).require(key.to_sym).permit(:body)
-            answer_text_params[:question_answer_id] = question_answer_id
-            AnswerText.create(answer_text_params)
-          end
+          question_answer_id = question_answers.find_by(question_id: question_id).id
+          answer_text = AnswerText.find_by(question_answer_id: question_answer_id)
+          answer_text.update(que_answer.permit(:body))
         when 'selectbox', 'radio'
-          value_isNull = params.require(:answer).require(key.to_sym)[:question_choice_id].blank?
-          unless value_isNull
-            question_answer_id = create_question_answer(key.to_i)
-            answer_choice_params = params.require(:answer).require(key.to_sym).permit(:question_choice_id)
-            answer_choice_params[:question_answer_id] = question_answer_id
-            AnswerChoice.create(answer_choice_params)
-          end
+          question_answer_id = question_answers.find_by(question_id: question_id).id
+          answer_choice = AnswerChoice.find_by(question_answer_id: question_answer_id)
+          answer_choice.destroy
+          AnswerChoice.create(choice_params(key, question_answer_id))
         when 'checkbox'
-          value_isNull = params.require(:answer).require(key.to_sym).length <= 1
-          unless value_isNull
-            question_answer_id = create_question_answer(key.to_i)
-            params.require(:answer).require(key.to_sym).each do |key2, value2|
-              next if key2 == 'category'
-              answer_choice_params = params.require(:answer).require(key.to_sym).require(key2.to_sym).permit(:question_choice_id)
-              answer_choice_params[:question_answer_id] = question_answer_id
-              AnswerChoice.create(answer_choice_params)
-            end
+          question_answer_id = question_answers.find_by(question_id: question_id).id
+          answer_choices = AnswerChoice.where(question_answer_id: question_answer_id)
+          answer_choices.delete_all
+          que_answer.each_key do |index|
+            next if index == 'category'
+            answer_params = que_answer[index].permit(:question_choice_id)
+            answer_params[:question_answer_id] = question_answer_id
+            AnswerChoice.create(answer_params)
+          end
+        end
+    end
+
+    def update_temporary_que_answer(key, question_id, question_answers)
+      que_answer = params.require(:answer).require(key.to_sym)
+      question_answer = question_answers.find_by(question_id: question_id)
+      case que_answer[:category]
+      when 'input', 'textarea'
+        value_isNull = que_answer[:body].empty?
+        unless value_isNull
+          answer_text = AnswerText.find_by(question_answer_id: question_answer.id)
+          answer_text.update(que_answer.permit(:body))
+        end
+      when 'selectbox', 'radio'
+        value_isNull = que_answer[:question_choice_id].blank?
+        unless value_isNull
+          answer_choice = AnswerChoice.find_by(question_answer_id: question_answer.id)
+          answer_choice.destroy
+          AnswerChoice.create(choice_params(key, question_answer.id))
+        end
+      when 'checkbox'
+        value_isNull = que_answer.length <= 1
+        unless value_isNull
+          answer_choices = AnswerChoice.where(question_answer_id: question_answer.id)
+          answer_choices.delete_all
+          que_answer.each_key do |index|
+            next if index == 'category'
+            answer_params = que_answer[index].permit(:question_choice_id)
+            answer_params[:question_answer_id] = question_answer_id
+            AnswerChoice.create(answer_params)
           end
         end
       end
+      question_answer.destroy if value_isNull
     end
 
-    def update_temporary_question
-      params.require(:answer).each do |key, value|
-        category = params.require(:answer).require(key.to_sym).require(:category)
-        case category
-        when 'input', 'textarea'
-          value_isNull = params.require(:answer).require(key.to_sym)[:body].empty?
-          if value_isNull
-            question_answer = QuestionAnswer.find_by(user_id: params[:user_id], question_id: key.to_i)
-            question_answer.destroy
-          else
-            question_answer_id = create_question_answer(key.to_i)
-            answer_text_params = params.require(:answer).require(key.to_sym).permit(:body)
-            answer_text_params[:question_answer_id] = question_answer_id
-            AnswerText.create(answer_text_params)
-          end
-        when 'selectbox', 'radio'
-          value_isNull = params.require(:answer).require(key.to_sym)[:question_choice_id].blank?
-          if value_isNull
-            question_answer = QuestionAnswer.find_by(user_id: params[:user_id], question_id: key.to_i)
-            question_answer.destroy
-          else
-            question_answer_id = create_question_answer(key.to_i)
-            answer_choice_params = params.require(:answer).require(key.to_sym).permit(:question_choice_id)
-            answer_choice_params[:question_answer_id] = question_answer_id
-            AnswerChoice.create(answer_choice_params)
-          end
-        when 'checkbox'
-          value_isNull = params.require(:answer).require(key.to_sym)[:question_choice_id].blank?
-          if value_isNull
-          else
-            params.require(:answer).require(key.to_sym).each do |key2, value2|
-              next if key2 == 'category'
-              question_answer_id = create_question_answer(key.to_i)
-              answer_choice_params = params.require(:answer).require(key.to_sym).require(key2.to_sym).permit(:question_choice_id)
-              answer_choice_params[:question_answer_id] = question_answer_id
-              AnswerChoice.create(answer_choice_params)
-            end
-          end
-        end
-      end
-    end
-
-    def create_question_answer(question_id)
+    def create_simple_que_answer(question_id)
       question_answer = QuestionAnswer.create(question_id: question_id, user_id: current_user.id)
       question_answer.id
+    end
+
+    def choice_params(key, question_answer_id)
+      params.require(:answer).require(key.to_sym)[:question_answer_id] = question_answer_id
+      params.require(:answer).require(key.to_sym).permit(:question_choice_id, :question_answer_id)
     end
 end
