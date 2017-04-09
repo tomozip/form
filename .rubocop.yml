@@ -1,6 +1,6 @@
 # This is the default configuration file. Enabling and disabling is configured
 # in separate files. This file adds all other parameters apart from Enabled.
-
+require: rubocop-rspec
 
 # Common configuration.
 AllCops:
@@ -34,6 +34,8 @@ AllCops:
     - 'doc/**/*'
     - 'tmp/**/*'
     - 'workspace/**/*'
+    - 'app/channels/application_cable/*'
+    - 'app/controllers/admins/*'
 
   DisplayCopNames: true
   DisplayStyleGuide: true
@@ -56,12 +58,13 @@ Documentation:
 
 # Japanese text in comments triggers only warnings.
 Style/AsciiComments:
-  Severity: warning
+  # Severity: warning # ほんとはこっち
+  Enabled: false
 
-# # We will not fix that in the near future
-# RSpec/InstanceVariable:
-#   Enabled: false
-#
-# # We allow to use this one for now.
-# RSpec/AnyInstance:
-#   Enabled: false
+# We will not fix that in the near future
+RSpec/InstanceVariable:
+  Enabled: false
+
+# We allow to use this one for now.
+RSpec/AnyInstance:
+  Enabled: false
