@@ -11,7 +11,7 @@
 <article class="questionnaire">
   <div id="questions-wrap">
     <ol>
-    <% @questionnaire.questions.each do |question| %>
+    <% @questionnaire.questions.includes(:question_choices).each do |question| %>
       <li>
         <%= question.body %>
         <p>（<%= to_text(question.category) %>）</p>
