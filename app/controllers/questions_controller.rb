@@ -1,9 +1,13 @@
 class QuestionsController < ApplicationController
   def create
-    @questionnaire = Questionnaire.find(params[:questionnaire_id])
-    question = @questionnaire.questions.create(question_params)
-    has_choices? && create_choices(question.id)
-    redirect_to questionnaire_path(params[:questionnaire_id])
+    questionnaire = Questionnaire.find(params[:questionnaire_id])
+    @question = questionnaire.questions.new(question_params)
+    if @question.save
+      create_choices(question.id) unless params[:question][:question_choices].nil?
+      redirect_to questionnaire_path(params[:questionnaire_id])
+    else
+      render_questionnaire_index
+    end
   end
 
   def destroy
@@ -14,22 +18,25 @@ class QuestionsController < ApplicationController
       params.require(:question).permit(:body, :category)
     end
 
-    def has_choices?
-      flag = false
-      params.each_key do |key|
-        flag = true if key == 'question_choice'
-      end
-      flag
-    end
-
     def create_choices(question_id)
-      numChoice = params.require(:question_choice).length
+      numChoice = params.require(:question).require(:question_choices).length
       numChoice.times do |i|
         key = "choice#{i}"
-        params.require(:question_choice).require(key.to_sym)['question_id'] = question_id
-        choice_params = params.require(:question_choice).require(key.to_sym).permit(:body, :question_id)
-        QuestionChoice.create(choice_params)
+        question_choice_params = params.require(:question)
+                                       .require(:question_choices)[key]
+                                       .permit(:body)
+        question_choice_params['question_id'] = question_id
+        @question_choice.new(question_choice_params)
+        unless @question_choice.save
+          render_questionnaire_index
+        end
       end
+    end
+
+    def render_questionnaire_index
+      @questionnaires = Questionnaire.all
+      @questionnaire = Questionnaire.new
+      render 'questionnaire/index'
     end
 
 end

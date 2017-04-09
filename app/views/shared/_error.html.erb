@@ -1,0 +1,11 @@
+<!-- バリデーションエラー時のみ、variable.errors に値があるので、エラーメッセージを表示する -->
+<% if variable.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= variable.errors.count %>件のエラーが発生しました。</h2>
+    <ul>
+    <% variable.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
