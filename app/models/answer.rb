@@ -6,6 +6,17 @@ class Answer < ApplicationRecord
   enum status: { 'answering' => 0, 'answered' => 1 }
   validates :user_id, uniqueness: { scope: :questionnaire_id }
 
+  def self.prepare_answer_result(questions, answered_user_ids)
+    results = {}
+    questions.each do |question|
+      results[question.id.to_s] = QuestionAnswer.prepare_que_answer_result(
+        question,
+        answered_user_ids
+      )
+    end
+    results
+  end
+
   def self.create_with_que_answer(params)
     user_id = params[:user_id]
     create_by_status('answered', user_id, params[:questionnaire_id])

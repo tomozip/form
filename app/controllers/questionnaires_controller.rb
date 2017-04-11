@@ -58,7 +58,11 @@ class QuestionnairesController < ApplicationController
   end
 
   def result
-
+    @questionnaire = Questionnaire.find(params[:id])
+    answered_user_ids = Answer.where(questionnaire_id: params[:id], status: 'answered')
+                              .pluck(:user_id)
+    @results = Answer.prepare_answer_result(@questionnaire.questions, answered_user_ids)
+    render 'result'
   end
 
   private

@@ -2,7 +2,7 @@
   <li>
     <%= questionnaire.title %>
     <%# TODO: 結果用のページに遷移 %>
-    <%= link_to '[結果]' if questionnaire.status == 'sent' %>
+    <%= link_to '[結果]', result_questionnaire_path(questionnaire.id) if questionnaire.status == 'sent' %>
     <%= link_to '[削除]', questionnaire_path(questionnaire.id), method: :delete, data: {confirm: '削除しますか？'} %>
     <p><%= questionnaire.description %></p>
   </li>

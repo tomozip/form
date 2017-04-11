@@ -1,0 +1,18 @@
+<h1>アンケート結果ページ</h1>
+<p><%= link_to '[戻る]', questionnaires_path %></p>
+<hr>
+<h3>アンケート名: <%= @questionnaire.title %></h3>
+<p>アンケート概要: <%= @questionnaire.description %></p>
+<p>回答者数: <%= @results.first[1].length %></p>
+<ol>
+<% @questionnaire.questions.each do |question| %>
+  <li>
+    <p><%= question.body %></p>
+    <%= if question.category == 'input' || question.category == 'textarea'
+      render partial: 'text_result', locals: {question: question}
+    else
+      render partial: 'choice_result', locals: {question: question}
+    end %>
+  </li>
+<% end %>
+</ol>
