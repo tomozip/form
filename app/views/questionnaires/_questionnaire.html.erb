@@ -1,8 +1,7 @@
-<%= link_to questionnaire_path(questionnaire.id) do %>
+<%= link_to questionnaire.status == 'sent' ? result_questionnaire_path(questionnaire.id) : questionnaire_path(questionnaire.id) do %>
   <li>
     <%= questionnaire.title %>
     <%# TODO: 結果用のページに遷移 %>
-    <%= link_to '[結果]', result_questionnaire_path(questionnaire.id) if questionnaire.status == 'sent' %>
     <%= link_to '[削除]', questionnaire_path(questionnaire.id), method: :delete, data: {confirm: '削除しますか？'} %>
     <p><%= questionnaire.description %></p>
   </li>

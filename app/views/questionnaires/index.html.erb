@@ -9,6 +9,11 @@
 <% end %>
 <hr>
 <h3>アンケート一覧</h3>
+<h5>作成中アンケート</h5>
 <ul>
-  <%= render partial: 'questionnaire', collection: @questionnaires %>
+  <%= render partial: 'questionnaire', collection: @edit_questionnaires, as: 'questionnaire' %>
+</ul>
+<h5>発行済みアンケート</h5>
+<ul>
+  <%= render partial: 'questionnaire', collection: @sent_questionnaires, as: 'questionnaire' %>
 </ul>

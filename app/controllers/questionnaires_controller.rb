@@ -2,7 +2,8 @@
 
 class QuestionnairesController < ApplicationController
   def index
-    @questionnaires = Questionnaire.all
+    @edit_questionnaires = Questionnaire.where(status: 'edit')
+    @sent_questionnaires = Questionnaire.where(status: 'sent')
     @questionnaire = Questionnaire.new
   end
 
