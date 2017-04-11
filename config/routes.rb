@@ -30,9 +30,10 @@ Rails.application.routes.draw do
   delete 'logout'  => 'sessions#destroy'
 
   scope '/admin' do
-    resources :questionnaires, only: [:show, :create, :destroy, :index, :edit, :show] do
+    resources :questionnaires, only: [:show, :create, :destroy, :index] do
       post "ajax_form", on: :member
       get "update_status", on: :member
+      get 'result', on: :member
       resources :questions, only: [:create, :destroy]
     end
   end

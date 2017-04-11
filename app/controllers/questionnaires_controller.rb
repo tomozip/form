@@ -57,6 +57,10 @@ class QuestionnairesController < ApplicationController
     render 'answers/questionnaire_list'
   end
 
+  def result
+
+  end
+
   private
 
   def questionnaire_params
