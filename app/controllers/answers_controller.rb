@@ -35,7 +35,15 @@ class AnswersController < ApplicationController
     # @answers.empty? => true
   end
 
-  def show; end
+  def show
+    @questionnaire = Questionnaire.find(params[:questionnaire_id])
+    @results = CompaniesUser.prepare_member_resules(
+      @questionnaire.questions,
+      params[:user_id],
+      params[:questionnaire_id]
+    )
+    render 'questionnaires/result'
+  end
 
   def destroy; end
 

@@ -1,5 +1,11 @@
 <h1>アンケート結果ページ</h1>
-<p><%= link_to '[戻る]', questionnaires_path %></p>
+<p>
+  <%= link_to '[戻る]', if action_name == 'result'
+    questionnaires_path
+  else
+    questionnaire_list_user_questionnaires_path(params[:user_id])
+  end %>
+</p>
 <hr>
 <h3>アンケート名: <%= @questionnaire.title %></h3>
 <p>アンケート概要: <%= @questionnaire.description %></p>
@@ -9,9 +15,9 @@
   <li>
     <p><%= question.body %></p>
     <%= if question.category == 'input' || question.category == 'textarea'
-      render partial: 'text_result', locals: {question: question}
+      render partial: 'questionnaires/text_result', locals: {question: question}
     else
-      render partial: 'choice_result', locals: {question: question}
+      render partial: 'questionnaires/choice_result', locals: {question: question}
     end %>
   </li>
 <% end %>

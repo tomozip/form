@@ -1,3 +1,7 @@
 <div class="choice-result-wrap">
-  <%= pie_chart @results[question.id.to_s] %>
+  <%= if question.category == 'checkbox'
+    column_chart @results[question.id.to_s]
+  else
+    pie_chart @results[question.id.to_s]
+  end %>
 </div>
