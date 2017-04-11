@@ -8,7 +8,8 @@ class QuestionnairesController < ApplicationController
   def create
     @questionnaire = Questionnaire.new(questionnaire_params)
     if @questionnaire.save
-      redirect_to questionnaire_path(questionnaire.id)
+      redirect_to questionnaire_path(@questionnaire.id)
+      flash[:done] = '新規アンケートを作成しました。質問を追加して、[確定]ボタンで送信してください。'
     else
       @questionnaires = Questionnaire.all
       render 'index'
@@ -40,6 +41,7 @@ class QuestionnairesController < ApplicationController
     questionnaire = Questionnaire.find(params[:id])
     questionnaire.status = 'sent'
     if questionnaire.save
+      flash[:done] = 'アンケートを発行しました。'
       redirect_to questionnaires_path
     else
       @questionnaire = Questionnaire.find(params[:id])
@@ -49,7 +51,7 @@ class QuestionnairesController < ApplicationController
 
   private
     def questionnaire_params
-      params.require(:questionnaire).permit(:description)
+      params.require(:questionnaire).permit(:title, :description)
     end
 
 end

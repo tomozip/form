@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
     questionnaire = Questionnaire.find(params[:questionnaire_id])
     @question = questionnaire.questions.new(question_params)
     if @question.save
-      create_choices(question.id) unless params[:question][:question_choices].nil?
+      create_choices(@question.id) unless params[:question][:question_choices].nil?
       redirect_to questionnaire_path(params[:questionnaire_id])
     else
       render_questionnaire_index
@@ -26,7 +26,7 @@ class QuestionsController < ApplicationController
                                        .require(:question_choices)[key]
                                        .permit(:body)
         question_choice_params['question_id'] = question_id
-        @question_choice.new(question_choice_params)
+        @question_choice = QuestionChoice.new(question_choice_params)
         unless @question_choice.save
           render_questionnaire_index
         end
