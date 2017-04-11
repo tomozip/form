@@ -1,0 +1,15 @@
+<h1>アンケートページ</h1>
+<p><%= link_to '[戻る]', admin_path(current_admin.id) %></p>
+<%= form_for @questionnaire do |f| %>
+  <%= render partial: 'shared/error', locals: {variable: @questionnaire} %>
+  <p>タイトル</p>
+  <%= f.text_field :title, required: true, placeholder: '○○○アンケート' %>
+  <p>アンケート説明</p>
+  <%= f.text_area :description, required: true, placeholder: '~に関してのアンケートです。  ' %>
+  <p><%= f.submit '[アンケート作成]' %></p>
+<% end %>
+<hr>
+<h3>アンケート一覧</h3>
+<ul>
+  <%= render partial: 'questionnaire', collection: @questionnaires %>
+</ul>

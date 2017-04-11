@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   before_action :log_out_company, only: [:show]
+  before_action :authenticate_user!
 
   def show
     @position = CompaniesUser.find_by(user_id: params[:id]).manager

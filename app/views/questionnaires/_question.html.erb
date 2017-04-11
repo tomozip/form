@@ -1,0 +1,12 @@
+<div id="question-field-box">
+  <%= form_for [@questionnaire, @questionnaire.questions.build] do |f| %>
+    <%= render partial: 'shared/error', locals: {variable: @question} %>
+    <%= f.text_area :body, placeholder: '質問文', required: true %>
+    <%= f.hidden_field :category, value: question_info[:category] %>
+    <%= if question_info[:category] == 'selectbox' || question_info[:category] == 'checkbox' || question_info[:category] == 'radio'
+      render partial: 'question_choices', locals: {f: f, numChoice: question_info[:numChoice]}
+    end %>
+    <%= f.submit '保存' %>
+    <%= link_to '[削除]', questionnaire_path(params[:id]) %>
+  <% end %>
+</div>

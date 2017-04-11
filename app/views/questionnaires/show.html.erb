@@ -1,0 +1,46 @@
+<h1>アンケート作成ページ</h1>
+<p>タイトル: <%= @questionnaire.title %></p>
+<p><%= @questionnaire.description %></p>
+<% if @questionnaire.status == 'editing' %>
+  <%= render partial: 'shared/error', locals: {variable: @questionnaire} %>
+  <%= link_to '[確定]', update_status_questionnaire_path(params[:id]) unless @questionnaire.questions.empty? %>
+  <%= link_to '[保存して戻る]', questionnaires_path %>
+<% else %>
+  <%= link_to '[戻る]', questionnaires_path %>
+<% end %>
+<article class="questionnaire">
+  <div id="questions-wrap">
+    <ol>
+    <% @questionnaire.questions.includes(:question_choices).each do |question| %>
+      <li>
+        <%= question.body %>
+        <p>（<%= to_text(question.category) %>）</p>
+        <ul>
+        <% question.question_choices.each do |choice| %>
+          <li><%= choice.body %></li>
+        <% end %>
+        </ul>
+      </li>
+    <% end %>
+    </ol>
+  </div>
+  <hr>
+  <% if @questionnaire.status == 'editing' %>
+    <div id="category-select-wrap">
+      <p>質問追加</p>
+      <%= form_tag ajax_form_questionnaire_path(params[:id]), remote: true do %>
+        <%= select_tag 'category_select', options_for_select({
+          '自由記入(短文)' => 'input',
+          '自由記入' => 'textarea',
+          '複数選択' => 'checkbox',
+          '一択(セレクトボックス)' => 'selectbox',
+          '一択(チェックボックス)' => 'radio'
+        }) %>
+        <%= submit_tag '質問追加' %>
+      <% end %>
+    </div>
+  <% end %>
+</article>
+<script type="text/javascript">
+    questionnaire();
+</script>
