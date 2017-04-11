@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MessagesController < ApplicationController
   def create
     user = User.find(params[:user_id])
@@ -12,7 +14,8 @@ class MessagesController < ApplicationController
   end
 
   private
-    def message_params
-      params.require(:message).permit(:body)
-    end
+
+  def message_params
+    params.require(:message).permit(:body)
+  end
 end

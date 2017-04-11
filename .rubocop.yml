@@ -36,6 +36,13 @@ AllCops:
     - 'workspace/**/*'
     - 'app/channels/application_cable/*'
     - 'app/controllers/admins/*'
+    - 'app/controllers/users/*'
+    - 'app/helpers/*'
+    - 'app/jobs/*'
+    - 'lib/**/*'
+    - 'config/**/*'
+    # - 'spec/**/*'
+    # - 'test/**/*'
 
   DisplayCopNames: true
   DisplayStyleGuide: true
