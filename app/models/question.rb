@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Question < ApplicationRecord
   belongs_to :questionnaire
   has_many :question_choices, dependent: :delete_all

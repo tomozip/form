@@ -1,5 +1,6 @@
-class QuestionnairesController < ApplicationController
+# frozen_string_literal: true
 
+class QuestionnairesController < ApplicationController
   def index
     @questionnaires = Questionnaire.all
     @questionnaire = Questionnaire.new
@@ -49,24 +50,16 @@ class QuestionnairesController < ApplicationController
         answered_questionnaire_ids.push(questionnaire_id)
       end
     end
-    questionnaires = Questionnaire.where(status: 'sent')
-    @questionnaires = { answered: [], answering: [], not_yet: [] }
-    questionnaires.each do |questionnaire|
-      questionnaire_id = questionnaire.id
-      if answered_questionnaire_ids.include?(questionnaire_id)
-        @questionnaires[:answered].push(questionnaire)
-      elsif answering_questionnaire_ids.include?(questionnaire_id)
-        @questionnaires[:answering].push(questionnaire)
-      else
-        @questionnaires[:not_yet].push(questionnaire)
-      end
-    end
+    @questionnaires = Questionnaire.prepare_questionnaire_list(
+      answering_questionnaire_ids,
+      answered_questionnaire_ids
+    )
     render 'answers/questionnaire_list'
   end
 
   private
-    def questionnaire_params
-      params.require(:questionnaire).permit(:title, :description)
-    end
 
+  def questionnaire_params
+    params.require(:questionnaire).permit(:title, :description)
+  end
 end

@@ -1,5 +1,6 @@
-class ImageUploader < CarrierWave::Uploader::Base
+# frozen_string_literal: true
 
+class ImageUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
@@ -15,22 +16,22 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   # 画像の上限を200pxにする
-   process :resize_to_limit => [200, 200]
+  process resize_to_limit: [200, 200]
 
   # 保存形式をJPGにする
-  process :convert => 'jpg'
+  process convert: 'jpg'
 
   # サムネイルを生成する設定
-   version :thumb do
-     process :resize_to_fill => [40, 40, gravity = ::Magick::CenterGravity]
-   end
+  version :thumb do
+    process resize_to_fill: [40, 40]
+  end
 
   # jpg,jpeg,gif,pngしか受け付けない
   def extension_white_list
-    %w(jpg jpeg gif png)
+    %w[jpg jpeg gif png]
   end
 
- # 拡張子が同じでないとGIFをJPGとかにコンバートできないので、ファイル名を変更
+  # 拡張子が同じでないとGIFをJPGとかにコンバートできないので、ファイル名を変更
   def filename
     super.chomp(File.extname(super)) + '.jpg' if original_filename.present?
   end
@@ -66,5 +67,4 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
-
 end

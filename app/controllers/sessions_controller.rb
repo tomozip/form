@@ -1,7 +1,8 @@
-class SessionsController < ApplicationController
+# frozen_string_literal: true
 
-  def after_update_path_for(resource)
-      mypage_user_path(current_user.id)
+class SessionsController < ApplicationController
+  def after_update_path_for(_resource)
+    mypage_user_path(current_user.id)
   end
 
   def new
@@ -15,7 +16,7 @@ class SessionsController < ApplicationController
       log_in_company company
       redirect_to new_user_registration_path
     else
-      flash.now[:danger] = "invalid password."
+      flash.now[:danger] = 'invalid password.'
       @companies = Company.all.select(:id, :name)
       render 'new'
     end
