@@ -10,18 +10,32 @@
   </head>
 
   <body>
-    <header>
-      <% if admin_signed_in? %>
-        <%= link_to '[管理者ログアウト]', destroy_admin_session_path, method: :delete %>
-      <% end %>
-      <% if user_signed_in? %>
-        <%= link_to '[ユーザーログアウト]', destroy_user_session_path, method: :delete %>
-      <% end %>
+    <header class="row">
+      <div class="col-md-12">
+        <%= image_tag "logo.png", height: '40' %>
+        <span class="app-name">Welcome Form</span>
+        <% if admin_signed_in? %>
+          <%= link_to '[管理者ログアウト]', destroy_admin_session_path, method: :delete %>
+        <% end %>
+        <% if user_signed_in? %>
+          <%= link_to '[ユーザーログアウト]', destroy_user_session_path, method: :delete %>
+        <% end %>
+      </div>
     </header>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <div class="row">
+      <div class="col-md-12">
+        <% if notice.present? %>
+          <p class="notice"><%= notice %></p>
+        <% end %>
+        <% if alert.present? %>
+          <p class="notice"><%= alert %></p>
+        <% end %>
+      </div>
+    </div>
     <%= flash[:danger] %>
+    <div class="main">
+      <%= yield %>
+    </div>
 
-    <%= yield %>
   </body>
 </html>

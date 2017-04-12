@@ -18,6 +18,9 @@
 //= require turbolinks
 //= require_tree .
 
+$(document).ready(() => {
+    setTimeout(() => $('.notice').fadeOut('normal'), 1000*3);
+})
 
 function questionnaire() {
     const wrap = $('#category-select-wrap'),

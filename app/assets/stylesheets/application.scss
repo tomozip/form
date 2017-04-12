@@ -1,2 +1,44 @@
+// *= require_tree .
+// *= require_self
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
+
+$white: #fff;
+$gray: #f8f9fb;
+$caution: #e91e63;
+$notice: #00b8d4;
+
+* {
+  box-sizing: border-box;
+}
+
+header {
+  background-color: $gray;
+  height: 60px;
+  padding: 7.5px 10px;
+
+  .app-name {
+    font-size: 18px;
+    line-height: 44px;
+  }
+}
+
+.main {
+  padding-top: 20px;
+}
+
+.alert {
+  background-color: $caution;
+  height: 100%;
+  width: 100%;
+}
+
+.notice {
+  background: $notice;
+  color: $white;
+  font-size: 17px;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 15px;
+  width: 100%;
+}
