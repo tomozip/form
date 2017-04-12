@@ -18,8 +18,10 @@ $gray: #bdbdbd;
   }
 }
 
+#user_name,
 #user_email,
-#user_password {
+#user_password,
+#user_password_confirmation {
   border: none;
   border-bottom: solid 1px $gray;
   border-radius: 0;
@@ -42,5 +44,14 @@ $gray: #bdbdbd;
     font-size: 17px;
     width: 100px;
     margin-top: 20px;
+  }
+}
+
+.new-user-form {
+  #user_name,
+  #user_email,
+  #user_password,
+  #user_password_confirmation {
+    margin-bottom: 15px;
   }
 }
