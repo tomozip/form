@@ -5,7 +5,7 @@
 
 $white: #fff;
 $gray: #f8f9fb;
-$caution: #e91e63;
+$alert: #f06292;
 $notice: #00b8d4;
 
 * {
@@ -28,8 +28,13 @@ header {
 }
 
 .alert {
-  background-color: $caution;
-  height: 100%;
+  background: $alert;
+  color: $white;
+  font-size: 17px;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 0 0 15px;
+  border-radius: 0;
   width: 100%;
 }
 

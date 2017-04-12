@@ -19,7 +19,10 @@
 //= require_tree .
 
 $(document).ready(() => {
-    setTimeout(() => $('.notice').fadeOut('normal'), 1000*3);
+    setTimeout(() => {
+      $('.notice').fadeOut('normal');
+      $('.alert').fadeOut('normal');
+    }, 1000*3);
 })
 
 function questionnaire() {

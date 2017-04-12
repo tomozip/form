@@ -19,11 +19,11 @@
         <div class="col-md-8 col-md-offset-2">
           <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
             <div class="field row">
-              <div class="col-md-12"><%= f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'email' %></div>
+              <div class="col-md-12"><%= f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'email', required: true %></div>
             </div>
 
             <div class="field row">
-              <div class="col-md-12"><%= f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: 'パスワード' %></div>
+              <div class="col-md-12"><%= f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: 'パスワード', required: true %></div>
             </div>
             <% if devise_mapping.rememberable? -%>
               <div class="field">
