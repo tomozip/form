@@ -9,7 +9,12 @@ $alert: #f06292;
 $notice: #00b8d4;
 
 * {
-  box-sizing: border-box;
+  box-sizing: border-box !important;
+}
+
+body {
+  overflow-x: hidden;
+  padding-bottom: 80px;
 }
 
 header {
@@ -56,10 +61,13 @@ header {
 
 .img-circle {
   object-fit: cover;
+  background-color: #eceff1;
 }
 
 .main {
   padding-top: 20px;
+  overflow-y: scroll;
+  height: 100%;
 }
 
 .alert {

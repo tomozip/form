@@ -2,6 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 $gray: #bdbdbd;
+$blue: #00b8d4;
 
 .title {
   margin-bottom: 40px;
@@ -58,11 +59,13 @@ $gray: #bdbdbd;
 
 .belong-com {
   color: #607d8b;
-  font-size: 17px;
+  font-size: 20px;
+  margin-left: 10px;
 }
 
-.message-title {
-  margin-bottom: 25px;
+.sub-title {
+  color: $blue;
+  margin-bottom: 35px;
 }
 
 .message {
@@ -71,4 +74,61 @@ $gray: #bdbdbd;
 
 .message-date {
   color: #607d8b;
+  margin-left: 10px;
+}
+
+// 代表ページ
+
+.member-list {
+  max-height: 450px;
+  overflow-y: scroll;
+}
+
+.table {
+  .btn {
+    display: inline-block;
+    margin: 0;
+  }
+
+  .scope-row,
+  td {
+    line-height: 31px !important;
+  }
+}
+
+.message-wrap {
+  height: 500px;
+  overflow-y: hidden;
+
+  .btn-primary {
+    margin-top: 30px;
+    width: 100px;
+  }
+
+  .btn-sm {
+    margin-top: 0;
+    float: right;
+  }
+
+  .message-list {
+    max-height: 450px;
+    overflow-y: scroll;
+
+    ul {
+      padding-left: 0;
+    }
+  }
+}
+
+.message-li {
+  margin-bottom: 35px;
+
+  .message {
+    margin-top: 10px;
+  }
+
+  .user-name {
+    margin-left: 10px;
+    font-size: 17px;
+  }
 }

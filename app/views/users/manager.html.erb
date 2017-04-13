@@ -1,23 +1,15 @@
 <h1>代表者ページ</h1>
-<%= link_to '[戻る]', user_path(params[:id]) %>
-<section>
-  <ul>
-    <li>会社名
-      <p><%= @company.name %></p>
-    </li>
-    <li>パスワード
-      <p><%= @company.password %></p>
-    </li>
-  </ul>
-</section>
+<p>会社名: <span class="belong-com"><%= @company.name %></span></p>
 <hr>
-<section>
-  <h3>社員一覧</h3>
-  <table>
+<section class="member-list">
+  <h3 class="sub-title">社員一覧</h3>
+  <table class="table table-striped">
     <thead>
       <tr>
+        <th>#</th>
         <th>社員名</th>
         <th>メールアドレス</th>
+        <th>社員削除</th>
       </tr>
     </thead>
     <tbody>
@@ -26,13 +18,19 @@
   </table>
 </section>
 <hr>
-<section>
-  <h3>メッセージ</h3>
-  <%= form_for [@user, @user.messages.build] do |f| %>
-    <%= f.text_area :body, placeholder: 'メッセージを入力してください。', required: true %>
-    <%= f.submit '送信' %>
-  <% end %>
-  <ul>
-    <%= render partial: 'message', collection: @messages %>
-  </ul>
+<section class="message-wrap">
+  <h3 class="sub-title">メッセージ</h3>
+  <div class="row">
+    <div class="col-md-4">
+      <%= form_for [@user, @user.messages.build] do |f| %>
+        <%= f.text_area :body, placeholder: 'メッセージを入力してください。', required: true, class: 'form-control', rows: 7 %>
+        <p><%= f.submit '送信', class: 'btn btn-default btn-primary' %></p>
+      <% end %>
+    </div>
+    <div class="col-md-8 message-list">
+      <ul>
+        <%= render partial: 'message', collection: @messages %>
+      </ul>
+    </div>
+  </div>
 </section>
