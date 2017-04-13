@@ -5,8 +5,8 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @position = CompaniesUser.find_by(user_id: params[:id]).manager
-    if @position == 'delegate'
+    position = CompaniesUser.find_by(user_id: params[:id]).manager
+    if position == 'delegate'
       @messages = Message.where(user_id: params[:id])
     else
       company_id = CompaniesUser.find_by(user_id: params[:id]).company_id
@@ -16,6 +16,8 @@ class UsersController < ApplicationController
         @messages = Message.where(user_id: manager_id)
       end
     end
+    company_id = CompaniesUser.find_by(user_id: current_user.id).company_id
+    @company = Company.find(company_id)
   end
 
   def destroy

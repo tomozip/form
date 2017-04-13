@@ -29,7 +29,7 @@
 <section>
   <h3>メッセージ</h3>
   <%= form_for [@user, @user.messages.build] do |f| %>
-    <%= f.text_area :body, placeholder: 'メッセージを入力してください。' %>
+    <%= f.text_area :body, placeholder: 'メッセージを入力してください。', required: true %>
     <%= f.submit '送信' %>
   <% end %>
   <ul>

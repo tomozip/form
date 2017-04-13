@@ -8,19 +8,33 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
   </head>
-
   <body>
-    <header class="row">
-      <div class="col-md-12">
-        <%= image_tag "logo.png", height: '40' %>
-        <span class="app-name">Welcome Form</span>
-        <% if admin_signed_in? %>
-          <%= link_to '[管理者ログアウト]', destroy_admin_session_path, method: :delete %>
-        <% end %>
-        <% if user_signed_in? %>
-          <%= link_to '[ユーザーログアウト]', destroy_user_session_path, method: :delete %>
-        <% end %>
-      </div>
+    <header>
+      <nav class="navbar navbar-default navbar-fixed-top">
+        <div id="gnavi" class="collapse navbar-collapse">
+          <div class="logo-box">
+            <%= image_tag "logo.png", height: '40' %>
+            <span class="app-name">Welcome Form</span>
+          </div>
+          <ul class="nav navbar-nav navbar-right">
+          <% if admin_signed_in? %>
+            <%= link_to '[管理者ログアウト]', destroy_admin_session_path, method: :delete %>
+          <% end %>
+          <% if user_signed_in? %>
+            <li><%= link_to 'ユーザートップ', user_path(current_user.id), class: 'link' %></li>
+            <li><%= link_to 'アンケート', questionnaire_list_user_questionnaires_path(current_user.id), class: 'link' %></li>
+            <li><%= link_to '代表者ページ', manager_user_path(current_user.id), class: 'link' if CompaniesUser.find_by(user_id: current_user.id).manager == 'delegate' %></li>
+            <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'link' %></li>
+            <li>
+              <%= link_to mypage_user_path(current_user.id), class: 'mypage-box' do %>
+                <%= image_tag current_user.image.present? ? current_user.image.to_s : 'unknown.png', height: '40px', width: '40px', class: 'img-circle' %>
+                <span class="user-name"><%= current_user.name %></span>
+              <% end %>
+            </li>
+          <% end %>
+          </ul>
+        </div>
+      </nav>
     </header>
     <div class="row">
       <div class="col-md-12">

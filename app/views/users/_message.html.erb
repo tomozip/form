@@ -1,5 +1,8 @@
 <li>
-  <%= message.body %>
-  <%= link_to '[削除]', user_message_path(params[:id], message.id), method: :delete, data: {confirm: '削除しますか？'} if action_name == 'manager' %>
-  <p><%= message.created_at %></p>
+  <span class="message"><%= message.body %></span>
+  <p class="message-date"><%= message.created_at.strftime('%Y/%m/%d %H:%M:%S') %></p>
+  <% if action_name == 'manager' %>
+    <%= link_to '削除', user_message_path(params[:id], message.id), method: :delete,
+    data: {confirm: '削除しますか？'}, class: 'btn btn-default' %>
+  <% end %>
 </li>

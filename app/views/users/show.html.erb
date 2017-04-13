@@ -1,9 +1,9 @@
-<h1>ユーザーページ</h1>
-<%= link_to "マイページ", mypage_user_path(params[:id]) %>
-<%= link_to '代表者ページ', manager_user_path(params[:id]) if @position == 'delegate' %>
-<%= link_to 'アンケートページ', questionnaire_list_user_questionnaires_path(params[:id]) %>
+<h1>ユーザートップページ</h1>
+<div class="row">
+  <div class="col-md-4">所属会社: <span class="belong-com"><%= @company.name %></span></div>
+</div>
 <hr>
 <section>
-  <h3>メッセージ</h3>
+  <h3 class="message-title">メッセージ</h3>
   <%= render partial: 'message', collection: @messages   %>
 </section>
