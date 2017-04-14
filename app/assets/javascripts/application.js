@@ -47,7 +47,7 @@ function questionnaire() {
 function answer_new() {
     $('#normal').on('click', () => {
         $('.warning').remove();
-        const lists = $('li');
+        const lists = $('ol li');
         const warning = '<div class="warning">回答してください。</div>';
         var all_values_isFull = true;
         lists.each((index, element) => {
@@ -62,14 +62,17 @@ function answer_new() {
     });
     $('#temporary').on('click', () => {
         $('.warning').remove();
-        const lists = $('li');
+        const lists = $('ol li');
         const warning = '<div class="warning">一つ以上回答してください。</div>';
         let all_values_isNull = true;
         lists.each((index, element) => {
           if (!value_isNull($(element))) all_values_isNull = false;
         });
         if (all_values_isNull) {
+          setTimeout(function () {
           $('ol').prepend(warning);
+          $("html,body").animate({scrollTop:0},'slow');
+        }, 100);
           return false;
         } else {
           $('#new_answer').submit();

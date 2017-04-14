@@ -1,16 +1,21 @@
 <h1>アンケート回答ページ</h1>
-タイトル: <%= @questionnaire.title %>
-<p><%= @questionnaire.description %></p>
-<%= link_to '[戻る]', questionnaire_list_user_questionnaires_path(params[:user_id]) %>
+<div class="panel panel-info question-panel">
+  <div class="panel-heading"><%= @questionnaire.title %></div>
+  <div class="panel-body">
+    <%= @questionnaire.description %>
+  </div>
+</div>
+<%= link_to '戻る', questionnaire_list_user_questionnaires_path(current_user.id), class: 'btn btn-default btn-back' %>
 <hr>
-<%= form_for @answer, url: {action: 'create'} do |f| %>
-  <ol>
-    <%= render partial: 'question', collection: @questions, locals: { f: f } %>
-  </ol>
-  <%= f.submit '回答送信', id: 'normal' %>
-  <%= f.submit '保存して戻る', name: 'temporary', id: 'temporary' %>
-
-<% end %>
+<section class="form-wrap">
+  <%= form_for @answer, url: {action: 'create'} do |f| %>
+    <ol>
+      <%= render partial: 'question', collection: @questions, locals: { f: f } %>
+    </ol>
+    <%= f.submit '回答送信', id: 'normal', class: 'btn btn-primary btn-lg' %>
+    <%= f.submit '保存して戻る', name: 'temporary', id: 'temporary', class: 'btn btn-success btn-lg' %>
+  <% end %>
+</section>
 
 <script type="text/javascript">
   answer_new();
