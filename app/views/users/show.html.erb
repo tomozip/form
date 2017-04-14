@@ -3,7 +3,13 @@
   <div class="col-md-4">所属会社: <span class="belong-com"><%= @company.name %></span></div>
 </div>
 <hr>
-<section>
+<section class="user-top-page">
   <h3 class="sub-title">メッセージ</h3>
-  <%= render partial: 'message', collection: @messages   %>
+  <ul class="message-lists">
+    <% if @messages.present? %>
+      <%= render partial: 'message', collection: @messages %>
+    <% else %>
+      <%= 'メッセージがありません。' %>
+    <% end %>
+  </ul>
 </section>

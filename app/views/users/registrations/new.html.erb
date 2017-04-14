@@ -10,7 +10,7 @@
         <div class="col-md-12"><%= f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'email', required: true %></div>
         <div class="col-md-12"><%= f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: 'パスワード(6文字以上)', required: true %></div>
         <div class="col-md-12"><%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', placeholder: 'パスワード(確認)', required: true %></div>
-        <div class="col-md-4"><%= f.label :image %></div>
+        <div class="col-md-12 profile-img-title">プロフィール画像</div>
         <div class="col-md-12"><%= f.file_field :image %></div>
       </div>
       <div class="actions">

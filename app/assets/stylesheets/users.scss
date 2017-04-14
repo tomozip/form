@@ -68,6 +68,12 @@ $blue: #00b8d4;
   margin-bottom: 35px;
 }
 
+.user-top-page {
+  .sub-title {
+    margin-bottom: 15px;
+  }
+}
+
 .message {
   font-size: 17px;
 }
@@ -130,5 +136,34 @@ $blue: #00b8d4;
   .user-name {
     margin-left: 10px;
     font-size: 17px;
+  }
+}
+
+.message-lists {
+  max-height: 600px;
+  overflow-y: scroll;
+  padding-left: 0;
+}
+
+// mypage
+.panel-title {
+  color: $blue !important;
+}
+
+.profile-img-title {
+  color: $blue;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.edit-user-form {
+  padding-left: 0 !important;
+
+  .col-md-12 {
+    margin-top: 15px;
+  }
+
+  i {
+    white-space: nowrap;
   }
 }

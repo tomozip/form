@@ -29,7 +29,11 @@
     </div>
     <div class="col-md-8 message-list">
       <ul>
-        <%= render partial: 'message', collection: @messages %>
+        <% if @messages.present? %>
+          <%= render partial: 'message', collection: @messages %>
+        <% else %>
+          <%= 'メッセージがありません。' %>
+        <% end %>
       </ul>
     </div>
   </div>

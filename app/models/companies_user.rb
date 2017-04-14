@@ -15,4 +15,9 @@ class CompaniesUser < ApplicationRecord
     ).pluck(:user_id)
     Answer.prepare_answer_result(questions, answered_member_ids)
   end
+
+  def self.set_manager(company_id)
+    manager_id = CompaniesUser.find_by(company_id: company_id, manager: 'delegate').user_id
+    User.find(manager_id)
+  end
 end

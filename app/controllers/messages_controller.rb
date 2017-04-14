@@ -3,7 +3,7 @@
 class MessagesController < ApplicationController
   def create
     user = User.find(params[:user_id])
-    @message = user.messages.create(message_params)
+    @messages = user.messages.create(message_params)
     redirect_to manager_user_path(params[:user_id])
   end
 
