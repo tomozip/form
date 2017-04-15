@@ -1,32 +1,31 @@
 <h1>アンケート作成ページ</h1>
-<p>タイトル: <%= @questionnaire.title %></p>
-<p><%= @questionnaire.description %></p>
-<% if @questionnaire.status == 'editing' %>
-  <%= link_to '[確定]', update_status_questionnaire_path(params[:id]) unless @questionnaire.questions.empty? %>
-  <%= link_to '[保存して戻る]', questionnaires_path %>
-<% else %>
-  <%= link_to '[戻る]', questionnaires_path %>
-<% end %>
-<article class="questionnaire">
-  <div id="questions-wrap">
-    <ol>
-    <% @questionnaire.questions.each do |question| %>
-      <li>
-        <%= question.body %>
-        <p>（<%= to_text(question.category) %>）</p>
-        <ul>
-        <% question.question_choices.each do |choice| %>
-          <li><%= choice.body %></li>
-        <% end %>
-        </ul>
-      </li>
-    <% end %>
-    </ol>
+<section class="questionnaire-create">
+  <div class="panel panel-info">
+    <div class="panel-heading"><%= @questionnaire.title %></div>
+    <div class="panel-body"><%= @questionnaire.description %></div>
   </div>
+  <%= link_to '発行', update_status_questionnaire_path(params[:id]), class: 'btn btn-primary' unless @questionnaire.questions.empty? %>
+  <%= link_to '保存して戻る', questionnaires_path, class: 'btn btn-success' %>
   <hr>
-  <% if @questionnaire.status == 'editing' %>
+  <article>
+    <div id="questions-wrap">
+      <ol>
+      <% @questionnaire.questions.each do |question| %>
+        <li class="question-item">
+          <%= question.body %>
+          <p class="question-category">[<%= to_text(question.category) %>]</p>
+          <ul>
+          <% question.question_choices.each do |choice| %>
+            <li><%= choice.body %></li>
+          <% end %>
+          </ul>
+        </li>
+      <% end %>
+      </ol>
+    </div>
+    <hr>
     <div id="category-select-wrap">
-      <p>質問追加</p>
+      <p class="add-title">質問追加</p>
       <%= form_tag ajax_form_questionnaire_path(params[:id]), remote: true do %>
         <%= select_tag 'category_select', options_for_select({
           '自由記入(短文)' => 'input',
@@ -35,11 +34,12 @@
           '一択(セレクトボックス)' => 'selectbox',
           '一択(チェックボックス)' => 'radio'
         }) %>
-        <%= submit_tag '質問追加' %>
+        <%= submit_tag '質問追加', class: 'btn btn-default' %>
       <% end %>
     </div>
-  <% end %>
-</article>
+  </article>
+</section>
+
 <script type="text/javascript">
     questionnaire();
 </script>

@@ -1,19 +1,29 @@
 <h1>アンケートページ</h1>
-<p><%= link_to '[戻る]', admin_path(current_admin.id) %></p>
-<%= form_for @questionnaire do |f| %>
-  <p>タイトル</p>
-  <%= f.text_field :title, required: true, placeholder: '○○○アンケート' %>
-  <p>アンケート説明</p>
-  <%= f.text_area :description, required: true, placeholder: '~に関してのアンケートです。  ' %>
-  <p><%= f.submit '[アンケート作成]' %></p>
-<% end %>
+<section class="questionnaire-index col-md-12">
+  <div class="new-questionnire-form row">
+    <h3 class="sub-title">新規アンケート作成</h3>
+    <%= form_for @questionnaire do |f| %>
+      <div class="title-box col-md-4">
+        <p>タイトル</p>
+        <%= f.text_field :title, required: true, placeholder: '○○○アンケート', class: 'form-control' %>
+        <p><%= f.submit 'アンケート作成', class: 'btn btn-primary' %></p>
+      </div>
+      <div class="description-box col-md-8">
+        <p>アンケート説明</p>
+        <%= f.text_area :description, required: true, placeholder: '~に関してのアンケートです。', class: 'form-control', rows: 5 %>
+      </div>
+    <% end %>
+  </div>
+  <hr>
+  <h3 class="sub-title">作成中アンケート</h3>
+  <ul class="list-unstyled">
+    <%= render partial: 'devide_questionnaire', collection: @edit_questionnaires, as: 'questionnaire' %>
+  </ul>
+  <hr>
+  <h3 class="sub-title">発行済みアンケート</h3>
+  <ul class="list-unstyled">
+    <%= render partial: 'devide_questionnaire', collection: @sent_questionnaires, as: 'questionnaire' %>
+  </ul>
+</section>
+
 <hr>
-<h3>アンケート一覧</h3>
-<h5>作成中アンケート</h5>
-<ul>
-  <%= render partial: 'questionnaire', collection: @edit_questionnaires, as: 'questionnaire' %>
-</ul>
-<h5>発行済みアンケート</h5>
-<ul>
-  <%= render partial: 'questionnaire', collection: @sent_questionnaires, as: 'questionnaire' %>
-</ul>

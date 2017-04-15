@@ -1,18 +1,20 @@
 <h1>社員一覧ページ</h1>
-<p>会社名： <%= @company.name %></p>
+<p><%= link_to '[戻る]', admin_path(current_admin.id), class: 'btn btn-default' %></p>
+<p>所属会社: <span class="belong-com"><%= @company.name %></span></p>
 <hr>
-<p><%= link_to '[戻る]', admin_path(current_admin.id) %></p>
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
+      <th>#</th>
       <th>名前</th>
       <th>メールアドレス</th>
       <th>代表者</th>
     </tr>
   </thead>
   <tbody>
-  <% @users.each do |user| %>
+  <% @users.each_with_index do |user, index| %>
     <tr>
+      <th scope="row" class="scope-row"><%= index+1 %></th>
       <td><%= user[:info].name %></td>
       <td><%= user[:info].email %></td>
       <td>

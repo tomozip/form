@@ -2,7 +2,7 @@
 
 class AnswersController < ApplicationController
   before_action :block_admin
-  before_action :authenticate_user
+  before_action :authenticate_user!
 
   def new
     form_set

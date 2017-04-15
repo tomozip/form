@@ -63,3 +63,75 @@ $blue: #00b8d4;
     margin-right: 15px;
   }
 }
+
+// questionnaire index
+.questionnaire-index {
+  .btn-primary {
+    margin-top: 20px;
+  }
+
+  ul {
+    .btn {
+      margin-top: -5px;
+      float: right;
+    }
+  }
+
+  .panel-heading {
+    color: #607d8b !important;
+    font-size: 17px;
+  }
+}
+
+// create questionnaire
+.questionnaire-create {
+  .panel {
+    margin-top: 40px;
+
+    .panel-heading {
+      font-size: 17px;
+    }
+  }
+
+  .btn-primary {
+    margin-right: 20px;
+    width: 110px;
+  }
+
+  ol {
+    font-size: 18px;
+
+    .question-category {
+      font-size: 14px;
+    }
+
+    .question-item {
+      margin-bottom: 20px;
+
+      li {
+        font-size: 15px;
+      }
+    }
+  }
+
+  .add-title {
+    font-size: 19px;
+    color: $blue;
+  }
+
+  .btn-default {
+    margin-left: 15px;
+  }
+
+  #question-field-box {
+    textarea {
+      margin-bottom: 25px;
+      margin-top: 20px;
+    }
+
+    .btn-primary {
+      margin-right: 20px;
+      width: 96px;
+    }
+  }
+}

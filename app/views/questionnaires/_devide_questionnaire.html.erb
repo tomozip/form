@@ -1,0 +1,11 @@
+<%# TODO: resultへのpath %>
+<% case questionnaire.status
+when 'editing' %>
+  <%= link_to questionnaire_path(questionnaire.id) do %>
+    <%= render partial: 'questionnaire', locals: {questionnaire: questionnaire} %>
+  <% end %>
+<% when 'sent' %>
+  <%= link_to result_questionnaire_path(questionnaire.id) do %>
+    <%= render partial: 'questionnaire', locals: {questionnaire: questionnaire} %>
+  <% end %>
+<% end %>
