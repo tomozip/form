@@ -54,3 +54,12 @@ $blue: #00b8d4;
   padding: 0 40px;
   margin-left: 15px;
 }
+
+.admin-top-page {
+  padding-left: 0 !important;
+
+  #company_name,
+  #company_password {
+    margin-right: 15px;
+  }
+}

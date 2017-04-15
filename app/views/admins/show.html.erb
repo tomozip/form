@@ -1,31 +1,37 @@
 <h1>管理者ページトップ</h1>
-<p><%= link_to 'アンケートページ', questionnaires_path %></p>
-<h3>法人管理</h3>
-<%= form_for Company.new do |f| %>
-  <%= f.text_field :name, placeholder: '法人名' %>
-  <%= f.text_field :password, placeholder: 'パスワード' %>
-  <%= f.submit '追加' %>
-<% end %>
 <hr>
-<table>
-  <thead>
-    <tr>
-      <th>会社名</th>
-      <th>代表者</th>
-      <th>link</th>
-    </tr>
-  </thead>
-  <tbody>
-  <% @companies.each_with_index do |company, index| %>
-    <%# TODO: link_to 社員一覧ページを追加 %>
-    <tr>
-      <td><%= company.name %></td>
-      <td><%= @companies_users[index] || "未登録" %></td>
-      <td><%= link_to "会社ページへ", company_companies_users_path(company.id)  %></td>
-    </tr>
+
+<h3 class="sub-title">法人管理</h3>
+<div class="col-md-8 admin-top-page">
+  <%= form_for Company.new do |f| %>
+    <%= f.text_field :name, placeholder: '法人名', required: true, class: 'form-inline' %>
+    <%= f.text_field :password, placeholder: 'パスワード', required: true, class: 'form-inline' %>
+    <%= f.submit '法人追加', class: 'btn btn-primary' %>
   <% end %>
-  </tbody>
-</table>
+  <hr>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>会社名</th>
+        <th>代表者</th>
+        <th>link</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @companies.each_with_index do |company, index| %>
+      <%# TODO: link_to 社員一覧ページを追加 %>
+      <tr>
+        <th scope="row" class="scope-row"><%= index+1 %></th>
+        <td><%= company.name %></td>
+        <td><%= @companies_users[index] || "未登録" %></td>
+        <td><%= link_to "会社ページへ", company_companies_users_path(company.id)  %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
 
 <script type="text/javascript">
   delete_message();
