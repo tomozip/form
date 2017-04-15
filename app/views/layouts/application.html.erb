@@ -18,7 +18,10 @@
           </div>
           <ul class="nav navbar-nav navbar-right">
           <% if admin_signed_in? %>
-            <%= link_to '[管理者ログアウト]', destroy_admin_session_path, method: :delete %>
+            <li><%= link_to '管理者トップ', admin_path(current_admin.id), class: 'link' %></li>
+            <li><%= link_to 'アンケート', questionnaires_path, class: 'link' %></li>
+            <li><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete, class: 'link' %></li>
+            <li class="admin-fix-box"><span class="admin-font">Admin</span></li>
           <% end %>
           <% if user_signed_in? %>
             <li><%= link_to 'ユーザートップ', user_path(current_user.id), class: 'link' %></li>

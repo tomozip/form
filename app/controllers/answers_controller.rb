@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
+  before_action :block_admin
+  before_action :authenticate_user
+
   def new
     form_set
     @answer = Answer.new
@@ -68,6 +71,13 @@ class AnswersController < ApplicationController
         question_choices = QuestionChoice.where(question_id: question.id)
         @options.store(question.id, [question_choices])
       end
+    end
+  end
+
+  def block_admin
+    if admin_signed_in?
+      warning = '現在管理者としてログイン中です。一度ログアウトしてからユーザーログインしてください。'
+      redirect_to admin_path(current_admin.id), alert: warning
     end
   end
 end

@@ -19,11 +19,15 @@
 //= require_tree .
 
 $(document).ready(() => {
-    setTimeout(() => {
-      $('.notice').fadeOut('normal');
-      $('.alert').fadeOut('normal');
-    }, 1000*3);
-})
+    delete_message();
+});
+
+function delete_message() {
+  setTimeout(() => {
+    $('.notice').fadeOut('normal');
+    $('.alert').fadeOut('normal');
+  }, 1000*3);
+}
 
 function questionnaire() {
     const wrap = $('#category-select-wrap'),

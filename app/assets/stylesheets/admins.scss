@@ -5,6 +5,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 $gray: #bdbdbd;
+$blue: #00b8d4;
 
 .title {
   margin-bottom: 40px;
@@ -43,4 +44,13 @@ $gray: #bdbdbd;
     width: 100px;
     margin-top: 20px;
   }
+}
+
+// top page
+.admin-fix-box {
+  font-size: 24px;
+  color: $blue;
+  border-left: solid 1px $gray;
+  padding: 0 40px;
+  margin-left: 15px;
 }
