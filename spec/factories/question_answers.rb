@@ -6,6 +6,7 @@ FactoryGirl.define do
   factory :question_answer do
     # user nil
     # question nil
-    association :user, :question
+    association :user
+    association :question
   end
 end

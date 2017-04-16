@@ -6,5 +6,5 @@ class QuestionChoice < ApplicationRecord
 
   validates :question_id, presence: true
   validates :body, presence: true
-  validates :body, uniquesness: { scope: [:question_id] }
+  validates :body, uniqueness: { scope: [:question_id] }
 end

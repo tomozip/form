@@ -4,7 +4,8 @@
 
 FactoryGirl.define do
   factory :companies_user do
-    association :user, :company
+    association :user
+    association :company
     # company nil
     # user nil
     manager 'general'

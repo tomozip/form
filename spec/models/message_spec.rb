@@ -7,11 +7,6 @@ describe Message do
     expect(build(:message)).to be_valid
   end
 
-  it 'is valid with a user_id and body' do
-    message = build(:message)
-    expect(message).to be_valid
-  end
-
   it 'is invalid without a user_id' do
     message = build(:message,
                     user_id: nil)

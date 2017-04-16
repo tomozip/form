@@ -28,6 +28,6 @@ class CompaniesUser < ApplicationRecord
   end
 
   def appoint_delegate?
-    status == 'delegate'
+    manager == 'delegate'
   end
 end

@@ -4,7 +4,8 @@
 
 FactoryGirl.define do
   factory :answer do
-    association :user, :questionnaire
+    association :user
+    association :questionnaire
     # user nil
     # questionnaire nil
     status 1

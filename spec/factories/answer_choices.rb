@@ -4,7 +4,8 @@
 
 FactoryGirl.define do
   factory :answer_choice do
-    association :question_answer, :question_choice
+    association :question_answer
+    association :question_choice
     # question_answer nil
     # question_choice nil
   end

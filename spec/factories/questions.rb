@@ -4,7 +4,7 @@
 
 FactoryGirl.define do
   factory :question do
-    association :questionnire
+    association :questionnaire
     # questionnaire nil
     body 'MyString'
     category 1

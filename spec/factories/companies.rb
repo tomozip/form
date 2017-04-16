@@ -5,6 +5,6 @@
 FactoryGirl.define do
   factory :company do
     name { Faker::Name.name }
-    password { Faker::Internet.password }
+    password 'MyString'
   end
 end
