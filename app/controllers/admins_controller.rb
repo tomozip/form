@@ -19,10 +19,10 @@ class AdminsController < ApplicationController
   end
 
   private
+
   def block_user
-    if user_signed_in?
-      warning = '現在管理者としてログイン中です。一度ログアウトしてからユーザーログインしてください。'
-      redirect_to user_path(current_user.id), alert: warning
-    end
+    return unless user_signed_in?
+    warning = '現在管理者としてログイン中です。一度ログアウトしてからユーザーログインしてください。'
+    redirect_to user_path(current_user.id), alert: warning
   end
 end

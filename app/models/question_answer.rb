@@ -6,6 +6,10 @@ class QuestionAnswer < ApplicationRecord
   has_one :answer_text, dependent: :destroy
   has_many :answer_choices, dependent: :delete_all
 
+  validates :question_id, presence: true
+  validates :user_id, presence: true
+  validates :user_id, uniqueness: { scope: [:question_id] }
+
   def self.prepare_que_answer_result(question, answered_user_ids)
     question_answer_ids = QuestionAnswer.where(question_id: question.id, user_id: answered_user_ids)
                                         .pluck(:id)

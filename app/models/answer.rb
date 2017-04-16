@@ -6,6 +6,12 @@ class Answer < ApplicationRecord
   enum status: { 'answering' => 0, 'answered' => 1 }
   validates :user_id, uniqueness: { scope: :questionnaire_id }
 
+  validates :user_id, presence: true
+  validates :questionnaire_id, presence: true
+  validates :status, presence: true
+  validates :status, inclusion: { in: Answer.statuses.keys }
+  validates :user_id, uniqueness: { scope: [:questionnaire_id] }
+
   def self.prepare_answer_result(questions, answered_user_ids)
     results = {}
     questions.each do |question|
