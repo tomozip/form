@@ -7,5 +7,5 @@ class Company < ApplicationRecord
 
   validates :name, presence: true
   validates :password, presence: true
-  validates :name, uniqueness: true   
+  validates :name, uniqueness: true
 end
