@@ -8,5 +8,11 @@ FactoryGirl.define do
     # question nil
     association :user
     association :question
+
+    factory :text_qa do
+      after(:build) do |question_answer|
+        question_answer.answer_text = build(:answer_text)
+      end
+    end
   end
 end

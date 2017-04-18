@@ -55,7 +55,7 @@ function answer_new() {
         const warning = '<div class="warning">回答してください。</div>';
         var all_values_isFull = true;
         lists.each((index, element) => {
-          if (value_isNull($(element))) {
+          if (value_is_null($(element))) {
               $(element).after(warning)
               all_values_isFull = false;
           }
@@ -68,11 +68,11 @@ function answer_new() {
         $('.warning').remove();
         const lists = $('ol li');
         const warning = '<div class="warning">一つ以上回答してください。</div>';
-        let all_values_isNull = true;
+        let all_values_is_null = true;
         lists.each((index, element) => {
-          if (!value_isNull($(element))) all_values_isNull = false;
+          if (!value_is_null($(element))) all_values_is_null = false;
         });
-        if (all_values_isNull) {
+        if (all_values_is_null) {
           setTimeout(function () {
           $('ol').prepend(warning);
           $("html,body").animate({scrollTop:0},'slow');
@@ -83,7 +83,7 @@ function answer_new() {
         }
     });
 
-    function value_isNull(element) {
+    function value_is_null(element) {
         const category = $(element).children('*:nth-child(2)').prop('type');
         switch (category) {
           case 'text':
@@ -92,11 +92,11 @@ function answer_new() {
             return !$(element).children('*:nth-child(2)').val();
           case 'radio':
           case 'checkbox':
-              var value_isNull = true;
+              var value_is_null = true;
               element.children('input[type="' + category + '"]').each((i, e) => {
-                  if ($(e).prop('checked')) value_isNull = false;
+                  if ($(e).prop('checked')) value_is_null = false;
               });
-              return value_isNull;
+              return value_is_null;
         }
     }
 }

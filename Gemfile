@@ -41,14 +41,16 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'factory_girl_rails', '~> 4.2.1'
   gem 'pry-rails' # rails console(もしくは、rails c)でirbの代わりにpryを使われる
-  gem 'rspec-rails', '~> 2.14.0'
+  gem 'rspec-rails', '~> 3.1.0'
 end
 
 group :test do
-  gem 'capybara', '~> 2.1.0'
+  gem 'capybara'
   gem 'database_cleaner', '~> 1.0.1'
   gem 'faker', '~> 1.1.2'
   gem 'launchy', '~> 2.3.0'
+  gem 'rspec', '~> 3.1.0'
+  gem 'rspec-core', '~> 3.1.0'
   gem 'selenium-webdriver', '~> 2.39.0'
 end
 

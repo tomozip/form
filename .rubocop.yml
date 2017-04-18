@@ -78,3 +78,12 @@ RSpec/AnyInstance:
 
 AsciiComments:
   Enabled: false
+
+RSpec/EmptyLineAfterFinalLet:
+  Enabled: false
+
+RSpec/EmptyLineAfterSubject:
+  Enabled: false
+
+Style/CommentAnnotation:
+  Enabled: false

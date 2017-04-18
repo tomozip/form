@@ -10,6 +10,6 @@ class AnswerText < ApplicationRecord
   def self.create_by_params(que_answer, question_answer_id)
     answer_text_params = que_answer.permit(:body)
     answer_text_params[:question_answer_id] = question_answer_id
-    AnswerText.create(answer_text_params)
+    AnswerText.create!(answer_text_params)
   end
 end

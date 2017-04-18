@@ -10,6 +10,6 @@ class AnswerChoice < ApplicationRecord
   def self.create_by_params(que_answer, question_answer_id)
     answer_choice_params = que_answer.permit(:question_choice_id)
     answer_choice_params[:question_answer_id] = question_answer_id
-    AnswerChoice.create(answer_choice_params)
+    AnswerChoice.create!(answer_choice_params)
   end
 end

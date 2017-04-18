@@ -18,6 +18,4 @@ describe AnswerChoice do
     answer_choice.valid?
     expect(answer_choice.errors[:question_choice_id]).to include('を入力してください')
   end
-
-  pending "add some examples to (or delete) #{__FILE__}"
 end
