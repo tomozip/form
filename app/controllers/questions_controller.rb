@@ -2,10 +2,14 @@
 
 class QuestionsController < ApplicationController
   def create
-    @questionnaire = Questionnaire.find(params[:questionnaire_id])
-    question = @questionnaire.questions.create(question_params)
-    has_choices? && create_choices(question.id)
-    redirect_to questionnaire_path(params[:questionnaire_id])
+    questionnaire = Questionnaire.find(params[:questionnaire_id])
+    @question = questionnaire.questions.new(question_params)
+    if @question.save
+      create_choices(@question.id) unless params[:question][:question_choices].nil?
+      redirect_to questionnaire_path(params[:questionnaire_id])
+    else
+      render_questionnaire_index
+    end
   end
 
   def destroy
