@@ -75,6 +75,33 @@ class QuestionnairesController < ApplicationController
     render 'answers/questionnaire_list'
   end
 
+  def questionnaire_list
+    answers = Answer.where(user_id: params[:user_id])
+    answering_questionnaire_ids = []
+    answered_questionnaire_ids = []
+    answers.each do |answer|
+      questionnaire_id = answer.questionnaire_id
+      if answer.status == 'answering'
+        answering_questionnaire_ids.push(questionnaire_id)
+      else
+        answered_questionnaire_ids.push(questionnaire_id)
+      end
+    end
+    questionnaires = Questionnaire.where(status: 'sent')
+    @questionnaires = { answered: [], answering: [], not_yet: [] }
+    questionnaires.each do |questionnaire|
+      questionnaire_id = questionnaire.id
+      if answered_questionnaire_ids.include?(questionnaire_id)
+        @questionnaires[:answered].push(questionnaire)
+      elsif answering_questionnaire_ids.include?(questionnaire_id)
+        @questionnaires[:answering].push(questionnaire)
+      else
+        @questionnaires[:not_yet].push(questionnaire)
+      end
+    end
+    render 'answers/questionnaire_list'
+  end
+
   private
     def questionnaire_params
       params.require(:questionnaire).permit(:title, :description)
