@@ -72,7 +72,6 @@ class QuestionnairesController < ApplicationController
         @questionnaires[:not_yet].push(questionnaire)
       end
     end
-    render 'answers/questionnaire_list'
   end
 
   def questionnaire_list
