@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CompaniesController < ApplicationController
   def create
     @company = Company.create(company_params)
@@ -5,7 +7,8 @@ class CompaniesController < ApplicationController
   end
 
   private
-    def company_params
-      params.require(:company).permit(:name, :password)
-    end
+
+  def company_params
+    params.require(:company).permit(:name, :password)
+  end
 end

@@ -1,5 +1,6 @@
-class UsersController < ApplicationController
+# frozen_string_literal: true
 
+class UsersController < ApplicationController
   before_action :log_out_company, only: [:show]
   before_action :authenticate_user!
 
@@ -15,7 +16,6 @@ class UsersController < ApplicationController
         @messages = Message.where(user_id: manager_id)
       end
     end
-
   end
 
   def destroy
