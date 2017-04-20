@@ -1,0 +1,15 @@
+<%# TODO: resultへのpath %>
+<% case status
+when 'answered' %>
+  <%= link_to user_questionnaire_answer_path(params[:user_id], questionnaire.id) do %>
+    <%= render partial: 'answers/questionnaire', locals: {questionnaire: questionnaire} %>
+  <% end %>
+<% when 'answering' %>
+  <%= link_to edit_user_questionnaire_answer_path(params[:user_id], questionnaire.id) do %>
+    <%= render partial: 'answers/questionnaire', locals: {questionnaire: questionnaire} %>
+  <% end %>
+<% when 'not_yet' %>
+  <%= link_to new_user_questionnaire_answer_path(params[:user_id], questionnaire.id) do %>
+    <%= render partial: 'answers/questionnaire', locals: {questionnaire: questionnaire} %>
+  <% end %>
+<% end %>

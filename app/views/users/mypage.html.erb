@@ -11,7 +11,8 @@
   </li>
   <li>
     <p>プロフィール画像</p>
-    <%= image_tag @user.image.to_s %>
+    <% image = @user.image.to_s %>
+    <%= image == '' ? '未登録' : image_tag(image) %>
   </li>
 </ul>
 <%= link_to '[編集]', edit_user_registration_path %>

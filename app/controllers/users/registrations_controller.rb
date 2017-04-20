@@ -21,7 +21,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   private
     def block_unlogin
-      if !logged_in_company?
+      unless logged_in_company?
         redirect_to login_path, alert: 'Log in as company before user registration'
       end
     end

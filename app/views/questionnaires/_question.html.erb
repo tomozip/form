@@ -3,9 +3,15 @@
     <%= render partial: 'shared/error', locals: {variable: @question} %>
     <%= f.text_area :body, placeholder: '質問文', required: true %>
     <%= f.hidden_field :category, value: question_info[:category] %>
-    <%= if question_info[:category] == 'selectbox' || question_info[:category] == 'checkbox' || question_info[:category] == 'radio'
-      render partial: 'question_choices', locals: {f: f, numChoice: question_info[:numChoice]}
-    end %>
+    <% if question_info[:category] == 'selectbox' || question_info[:category] == 'checkbox' || question_info[:category] == 'radio' %>
+      <% question_info[:num_choice].to_i.times do |i| %>
+        <%= fields_for QuestionChoice.new do |choice| %>
+          <%= choice.fields_for "choice#{i}".to_sym do |index| %>
+            <p><%= index.text_field :body, placeholder: '選択肢テキスト', required: true %></p>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
     <%= f.submit '保存' %>
     <%= link_to '[削除]', questionnaire_path(params[:id]) %>
   <% end %>
