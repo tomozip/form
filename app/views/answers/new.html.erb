@@ -1,0 +1,17 @@
+<h1>アンケート回答ページ</h1>
+タイトル: <%= @questionnaire.title %>
+<p><%= @questionnaire.description %></p>
+<%= link_to '[戻る]', questionnaire_list_user_questionnaires_path(params[:user_id]) %>
+<hr>
+<%= form_for @answer, url: {action: 'create'} do |f| %>
+  <ol>
+    <%= render partial: 'question', collection: @questions, locals: { f: f } %>
+  </ol>
+  <%= f.submit '回答送信', id: 'normal' %>
+  <%= f.submit '保存して戻る', name: 'temporary', id: 'temporary' %>
+
+<% end %>
+
+<script type="text/javascript">
+  validate_user_input();
+</script>

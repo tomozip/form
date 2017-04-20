@@ -3,6 +3,7 @@
 
 <%= link_to "マイページ", mypage_user_path(params[:id]) %>
 <%= link_to '代表者ページ', manager_user_path(params[:id]) if @position == 'delegate' %>
+<%= link_to 'アンケートページ', questionnaire_list_user_questionnaires_path(params[:id]) %>
 <hr>
 <section>
   <h3>メッセージ</h3>

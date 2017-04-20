@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'questions/create'
-
-  get 'questions/destroy'
-
   devise_for :admins, module: :admins
   devise_for :users, module: :users
   devise_scope :user do
@@ -23,6 +19,10 @@ Rails.application.routes.draw do
     get 'mypage', on: :member
     get 'manager', on: :member
     resources :messages, only: [:create, :destroy]
+    resources :questionnaires, only: [] do
+      get 'questionnaire_list', on: :collection
+      resource :answer, except: [:destroy]
+    end
   end
 
   get    'login'   => 'sessions#new'
@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   delete 'logout'  => 'sessions#destroy'
 
   scope '/admin' do
-    resources :questionnaires, only: [:show, :create, :destroy, :index] do
+    resources :questionnaires, only: [:show, :create, :destroy, :index, :edit, :show] do
       post "ajax_form", on: :member
       get "update_status", on: :member
       resources :questions, only: [:create, :destroy]

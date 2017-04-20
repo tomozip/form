@@ -17,7 +17,7 @@
       <td><%= user[:info].name %></td>
       <td><%= user[:info].email %></td>
       <td>
-        <%= if @existsManager
+        <%= if @exists_manager
           user[:manager] == 'delegate' ? "代表" : link_to("代表者変更", changeManager_company_companies_user_path(params[:company_id], user[:companies_user_id]))
         else
           link_to '代表者登録', registarManager_company_companies_user_path(params[:company_id], user[:companies_user_id])
