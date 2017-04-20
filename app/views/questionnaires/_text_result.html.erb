@@ -1,0 +1,7 @@
+<div class="text-result-wrap">
+  <ul>
+  <% @results[question.id.to_s].each do |body| %>
+    <li><%= body %></li>
+  <% end %>
+  </ul>
+</div>

@@ -2,7 +2,8 @@
 
 class QuestionnairesController < ApplicationController
   def index
-    @questionnaires = Questionnaire.all
+    @edit_questionnaires = Questionnaire.where(status: 'edit')
+    @sent_questionnaires = Questionnaire.where(status: 'sent')
     @questionnaire = Questionnaire.new
   end
 
@@ -66,6 +67,14 @@ class QuestionnairesController < ApplicationController
       answered_questionnaire_ids
     )
     render 'answers/questionnaire_list'
+  end
+
+  def result
+    @questionnaire = Questionnaire.find(params[:id])
+    answered_user_ids = Answer.where(questionnaire_id: params[:id], status: 'answered')
+                              .pluck(:user_id)
+    @results = Answer.prepare_answer_result(@questionnaire.questions, answered_user_ids)
+    render 'result'
   end
 
   private

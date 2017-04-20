@@ -3,8 +3,28 @@
 class QuestionAnswer < ApplicationRecord
   belongs_to :user
   belongs_to :question
-  has_many :answer_texts, dependent: :delete_all
+  has_one :answer_text, dependent: :destroy
   has_many :answer_choices, dependent: :delete_all
+
+  def self.prepare_que_answer_result(question, answered_user_ids)
+    question_answer_ids = QuestionAnswer.where(question_id: question.id, user_id: answered_user_ids)
+                                        .pluck(:id)
+    case question.category
+    when 'input', 'textarea'
+      AnswerText.where(question_answer_id: question_answer_ids).pluck(:body)
+    when 'selectbox', 'radio', 'checkbox'
+      choices = {}
+      question_choice_ids = question.question_choices.pluck(:id)
+      question_choice_ids.each do |question_choice_id|
+        body = QuestionChoice.find(question_choice_id).body
+        choices[body] = AnswerChoice.where(
+          question_answer_id: question_answer_ids,
+          question_choice_id: question_choice_id
+        ).count
+      end
+      choices
+    end
+  end
 
   def self.prepare_answers(question_answers)
     answers = {}

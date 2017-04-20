@@ -84,3 +84,5 @@ gem 'autoprefixer-rails'
 gem 'bootstrap-sass'
 
 gem 'rubocop-rspec'
+
+gem 'chartkick'
