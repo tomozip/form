@@ -191,13 +191,13 @@ describe QuestionAnswer do
           create :question_answer, user: user, question: question
         end
       end
-      # #DOING:20 update処理のshared_examplesの用意
+      # #DONE:50 update処理のshared_examplesの用意
       shared_examples 'update answer_text' do
         it 'update answer_text' do
           expect { described_subject }.to change { question_answer.reload.answer_text.body }.from('MyString').to('ParamsString')
         end
       end
-      # DOING:0 tem_update_with_childsのinvalidの時に移植。普通のupdateではエラー出すことにしたから。
+      # DONE:80 tem_update_with_childsのinvalidの時に移植。普通のupdateではエラー出すことにしたから。
       shared_examples 'update answer_choice' do
         it 'delete pre_answer_choice and create new answer_choice' do
           expect { described_subject }.to change { question_answer.answer_choices.first.question_choice.body }.from('qc0').to('qc1')
@@ -272,7 +272,7 @@ describe QuestionAnswer do
       end
 
       describe '.tem_update_with_childs' do
-        # TODO: 一時アップデート。のテストを書く
+        # DONE:10 一時アップデート。のテストを書く
         subject(:described_subject) do
           described_class.tem_update_with_childs(que_answer, question_answer)
         end
@@ -331,6 +331,29 @@ describe QuestionAnswer do
           end
         end
       end
+    end
+  end
+
+  describe '.prepare_que_answer_result' do
+    subject { described_class.prepare_que_answer_result(question, answered_users.pluck(:id)) }
+    let(:answered_users) { (1..3).to_a.map { create(:user) } }
+    context 'when input or textarea' do
+      let(:question) { create :text_question }
+      it 'returns answer_text bodies' do
+        3.times { |index| create :text_qa, question: question, user: answered_users[index] }
+        expect(described_class.prepare_que_answer_result(question, answered_users.pluck(:id)))
+          .to eq %w[MyString MyString MyString]
+      end
+    end
+    context 'when selectbox or radio or checkbox' do
+      let(:question) { create :select_question }
+      before do
+        3.times do |index|
+          question_answer = create :question_answer, question: question, user: answered_users[index]
+          create(:answer_choice, question_answer: question_answer, question_choice: question.question_choices.find_by(body: "qc#{index}"))
+        end
+      end
+      it { is_expected.to eq('qc0' => 1, 'qc1' => 1, 'qc2' => 1) }
     end
   end
 end
