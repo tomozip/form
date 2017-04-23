@@ -1,34 +1,8 @@
 <h1>アンケート作成ページ</h1>
-<<<<<<< HEAD
 <section class="questionnaire-create">
   <div class="panel panel-info">
     <div class="panel-heading"><%= @questionnaire.title %></div>
     <div class="panel-body"><%= @questionnaire.description %></div>
-=======
-<p>タイトル: <%= @questionnaire.title %></p>
-<p><%= @questionnaire.description %></p>
-<% if @questionnaire.status == 'editing' %>
-  <%= link_to '[確定]', update_status_questionnaire_path(params[:id]) unless @questionnaire.questions.empty? %>
-  <%= link_to '[保存して戻る]', questionnaires_path %>
-<% else %>
-  <%= link_to '[戻る]', questionnaires_path %>
-<% end %>
-<article class="questionnaire">
-  <div id="questions-wrap">
-    <ol>
-    <% @questionnaire.questions.includes(:question_choices).each do |question| %>
-      <li>
-        <%= question.body %>
-        <p>（<%= to_text(question.category) %>）</p>
-        <ul>
-        <% question.question_choices.each do |choice| %>
-          <li><%= choice.body %></li>
-        <% end %>
-        </ul>
-      </li>
-    <% end %>
-    </ol>
->>>>>>> master
   </div>
   <%= link_to '発行', update_status_questionnaire_path(params[:id]), class: 'btn btn-primary' unless @questionnaire.questions.empty? %>
   <%= link_to '保存して戻る', questionnaires_path, class: 'btn btn-success' %>

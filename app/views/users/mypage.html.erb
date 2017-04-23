@@ -9,18 +9,11 @@
     <div class="panel-heading"><h3 class="panel-title">メールアドレス</h3></div>
     <div class="panel-body"><%= @user.email %></div>
   </li>
-<<<<<<< HEAD
   <li class="panel panel-default">
     <div class="panel-heading"><h3 class="panel-title">プロフィール画像</h3></div>
     <div class="panel-body">
       <%= image_tag current_user.image.present? ? current_user.image.to_s : 'unknown.png', height: '100px', width: '100px', class: 'img-circle' %>
     </div>
-=======
-  <li>
-    <p>プロフィール画像</p>
-    <% image = @user.image.to_s %>
-    <%= image == '' ? '未登録' : image_tag(image) %>
->>>>>>> master
   </li>
 </ul>
 <%= link_to '編集', edit_user_registration_path, class: 'btn btn-default' %>
