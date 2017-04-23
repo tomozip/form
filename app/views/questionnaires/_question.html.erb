@@ -1,5 +1,6 @@
 <div id="question-field-box" class="col-md-6">
   <%= form_for [@questionnaire, @questionnaire.questions.build] do |f| %>
+    <%= render partial: 'shared/error', locals: {variable: @question} %>
     <%= f.text_area :body, placeholder: '追加質問文', required: true, class: 'form-control', rows: 5 %>
     <%= f.hidden_field :category, value: question_info[:category] %>
     <% if question_info[:category] == 'selectbox' || question_info[:category] == 'checkbox' || question_info[:category] == 'radio' %>
@@ -14,5 +15,4 @@
     <%= f.submit '追加', class: 'btn btn-primary' %>
     <%= link_to 'キャンセル', questionnaire_path(params[:id]), class: 'btn btn-danger' %>
   <% end %>
-
 </div>

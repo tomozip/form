@@ -1,0 +1,7 @@
+<%= f.fields_for 'question_choices' do |choice| %>
+  <% numChoice.to_i.times do |i| %>
+    <%= choice.fields_for "choice#{i}".to_sym do |index| %>
+      <p><%= index.text_field :body, placeholder: '選択肢テキスト', required: true %></p>
+    <% end %>
+  <% end %>
+<% end %>

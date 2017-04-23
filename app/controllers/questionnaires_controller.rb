@@ -13,8 +13,14 @@ class QuestionnairesController < ApplicationController
   end
 
   def create
-    questionnaire = Questionnaire.create(questionnaire_params)
-    redirect_to questionnaire_path(questionnaire.id)
+    @questionnaire = Questionnaire.new(questionnaire_params)
+    if @questionnaire.save
+      redirect_to questionnaire_path(@questionnaire.id)
+      flash[:done] = '新規アンケートを作成しました。質問を追加して、[確定]ボタンで送信してください。'
+    else
+      @questionnaires = Questionnaire.all
+      render 'index'
+    end
   end
 
   def destroy
@@ -40,8 +46,13 @@ class QuestionnairesController < ApplicationController
   def update_status
     questionnaire = Questionnaire.find(params[:id])
     questionnaire.status = 'sent'
-    questionnaire.save
-    redirect_to questionnaires_path
+    if questionnaire.save
+      flash[:done] = 'アンケートを発行しました。'
+      redirect_to questionnaires_path
+    else
+      @questionnaire = Questionnaire.find(params[:id])
+      render 'show'
+    end
   end
 
   def questionnaire_list
