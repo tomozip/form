@@ -12,17 +12,14 @@ class Questionnaire < ApplicationRecord
 
   def self.prepare_questionnaire_list(answering_questionnaire_ids, answered_questionnaire_ids)
     questionnaires = Questionnaire.where(status: 'sent')
-    list = { answered: [], answering: [], not_yet: [] }
-    questionnaires.each do |questionnaire|
-      questionnaire_id = questionnaire.id
-      if answered_questionnaire_ids.include?(questionnaire_id)
-        list[:answered].push(questionnaire)
-      elsif answering_questionnaire_ids.include?(questionnaire_id)
-        list[:answering].push(questionnaire)
+    questionnaires.each_with_object({}) do |questionnaire, list|
+      if answered_questionnaire_ids.include?(questionnaire.id)
+        list[:answered].try(:push, questionnaire.id) || list[:answered] = [questionnaire]
+      elsif answering_questionnaire_ids.include?(questionnaire.id)
+        list[:answering].try(:push, questionnaire) || list[:answering] = [questionnaire]
       else
-        list[:not_yet].push(questionnaire)
+        list[:not_yet].try(:push, questionnaire) || list[:not_yet] = [questionnaire]
       end
     end
-    list
   end
 end
