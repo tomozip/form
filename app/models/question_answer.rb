@@ -41,7 +41,6 @@ class QuestionAnswer < ApplicationRecord
   end
 
   def self.create_with_childs(key, que_answer, user_id)
-    QuestionAnswer.transaction do
       question_answer_id = QuestionAnswer.create!(question_id: key.to_i, user_id: user_id).id
       case que_answer[:category]
       when 'input', 'textarea'
@@ -55,7 +54,6 @@ class QuestionAnswer < ApplicationRecord
           AnswerChoice.create_by_params(choice, question_answer_id)
         end
       end
-    end
   end
 
   def self.tem_create_with_childs(key, que_answer, user_id)
