@@ -52,6 +52,7 @@ group :test do
   gem 'rspec', '~> 3.1.0'
   gem 'rspec-core', '~> 3.1.0'
   gem 'selenium-webdriver', '~> 2.39.0'
+  gem 'rails-controller-testing'
 end
 
 group :development do

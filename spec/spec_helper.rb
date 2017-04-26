@@ -8,6 +8,8 @@ require 'rspec/autorun'
 require 'database_cleaner'
 require 'devise'
 require File.expand_path("spec/support/controller_macros.rb")
+require 'rails-controller-testing'
+Rails::Controller::Testing.install
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -50,7 +52,6 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :view
 
-  config.include Devise::TestHelpers, type: :controller
   config.include ControllerMacros, type: :controller
 
   config.before(:suite) do
@@ -63,6 +64,12 @@ RSpec.configure do |config|
 
   config.after(:each) do
     DatabaseCleaner.clean
+  end
+
+  [:controller, :view, :request].each do |type|
+    config.include ::Rails::Controller::Testing::TestProcess, :type => type
+    config.include ::Rails::Controller::Testing::TemplateAssertions, :type => type
+    config.include ::Rails::Controller::Testing::Integration, :type => type
   end
 
   # ファクトリを簡単に呼び出せるよう、FactoryGirlの構文をインクルードする
