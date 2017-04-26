@@ -10,7 +10,7 @@
 <section class="form-wrap">
   <%= form_for 'answer', url: {action: 'update'}, html: {method: 'put'} do |f| %>
     <ol>
-      <%= render partial: 'edit_question', as: 'question', collection: @questions, locals: { f: f } %>
+      <%= render partial: 'edit_question', as: 'question', collection: @questionnaire.questions, locals: { f: f } %>
     </ol>
     <%= f.submit '回答送信', id: 'normal', class: 'btn btn-primary btn-lg' %>
     <%= f.submit '保存して戻る', name: 'temporary', id: 'temporary', class: 'btn btn-success btn-lg' %>

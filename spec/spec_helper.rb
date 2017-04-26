@@ -6,6 +6,8 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'database_cleaner'
+require 'devise'
+require File.expand_path("spec/support/controller_macros.rb")
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -43,17 +45,25 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
+  config.infer_spec_type_from_file_location!
+
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :view
+
+  config.include Devise::TestHelpers, type: :controller
+  config.include ControllerMacros, type: :controller
+
   config.before(:suite) do
-      DatabaseCleaner.strategy = :truncation
-    end
+    DatabaseCleaner.strategy = :truncation
+  end
 
-    config.before(:each) do
-      DatabaseCleaner.start
-    end
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
 
-    config.after(:each) do
-      DatabaseCleaner.clean
-    end
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 
   # ファクトリを簡単に呼び出せるよう、FactoryGirlの構文をインクルードする
   config.include FactoryGirl::Syntax::Methods

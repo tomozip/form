@@ -14,7 +14,7 @@ class Questionnaire < ApplicationRecord
     questionnaires = Questionnaire.where(status: 'sent')
     questionnaires.each_with_object({}) do |questionnaire, list|
       if answered_questionnaire_ids.include?(questionnaire.id)
-        list[:answered].try(:push, questionnaire.id) || list[:answered] = [questionnaire]
+        list[:answered].try(:push, questionnaire) || list[:answered] = [questionnaire]
       elsif answering_questionnaire_ids.include?(questionnaire.id)
         list[:answering].try(:push, questionnaire) || list[:answering] = [questionnaire]
       else
