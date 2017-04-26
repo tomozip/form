@@ -17,7 +17,8 @@ class QuestionAnswer < ApplicationRecord
     else
       question.question_choices.each_with_object({}) do |question_choice, hash|
         hash[question_choice.body] = question_choice.answer_choices.where(
-          question_answer_id: question_answer_ids).count
+          question_answer_id: question_answer_ids
+        ).count
       end
     end
   end
@@ -41,20 +42,21 @@ class QuestionAnswer < ApplicationRecord
   end
 
   def self.create_with_childs(key, que_answer, user_id)
-      question_answer_id = QuestionAnswer.create!(question_id: key.to_i, user_id: user_id).id
-      case que_answer[:category]
-      when 'input', 'textarea'
-        AnswerText.create_by_params(que_answer, question_answer_id)
-      when 'selectbox', 'radio'
-        AnswerChoice.create_by_params(que_answer, question_answer_id)
-      when 'checkbox'
-        raise 'No checked choice' if que_answer.length < 2
-        que_answer.each do |index, choice|
-          next if index == 'category'
-          AnswerChoice.create_by_params(choice, question_answer_id)
-        end
+    question_answer_id = QuestionAnswer.create!(question_id: key.to_i, user_id: user_id).id
+    case que_answer[:category]
+    when 'input', 'textarea'
+      AnswerText.create_by_params(que_answer, question_answer_id)
+    when 'selectbox', 'radio'
+      AnswerChoice.create_by_params(que_answer, question_answer_id)
+    when 'checkbox'
+      raise 'No checked choice' if que_answer.length < 2
+      que_answer.each do |index, choice|
+        next if index == 'category'
+        AnswerChoice.create_by_params(choice, question_answer_id)
       end
+    end
   end
+
 
   def self.tem_create_with_childs(key, que_answer, user_id)
     # 一時保存の場合はview側のjsで空白を弾かないためcontroller側で内容がnilじゃないか毎回確かめる。

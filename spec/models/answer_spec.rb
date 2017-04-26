@@ -147,17 +147,4 @@ describe Answer do
       end
     end
   end
-
-  # describe '.create_by_status' do
-  #   it 'create a new answering answer' do
-  #     expect { described_class.create_by_status('answering', user.id, questionnaire.id) }.to(
-  #       change { user.reload.answers.count }.by(1))
-  #     expect(user.answers.find_by(questionnaire_id: questionnaire.id).status).to eq 'answering'
-  #   end
-  #   it 'create a new answered answer' do
-  #     expect { described_class.create_by_status('answering', user.id, questionnaire.id) }.to(
-  #       change { user.reload.answers.count }.by(1))
-  #     expect(user.answers.find_by(questionnaire_id: questionnaire.id).status).to eq 'answered'
-  #   end
-  # end
 end

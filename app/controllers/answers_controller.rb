@@ -40,11 +40,7 @@ class AnswersController < ApplicationController
 
   def show
     @questionnaire = Questionnaire.find(params[:questionnaire_id])
-    @results = CompaniesUser.prepare_member_results(
-      @questionnaire.questions,
-      params[:user_id],
-      params[:questionnaire_id]
-    )
+    @results = CompaniesUser.prepare_member_results(params[:user_id], params[:questionnaire_id])
     render 'questionnaires/result'
   end
 
