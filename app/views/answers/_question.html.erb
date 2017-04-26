@@ -1,23 +1,30 @@
-<li>
-  <p><%= question.body %></p>
-  <%= f.fields_for "#{question.id}".to_sym do |t| %>
-    <% case question.category
-      when 'input' %>
-      <%= t.text_field :body, placeholder: '回答' %>
-    <% when 'textarea' %>
-      <%= t.text_area :body, placeholder: '回答' %>
-    <% when 'selectbox' %>
-      <%= t.select :question_choice_id, @options[question.id].first.map {|choice| [choice.body, choice.id]},
-      {include_blank: true}, {} %>
-    <% when 'checkbox' %>
-      <% @options[question.id].first.each_with_index do |choice, index| %>
-        <%= t.check_box "#{index}[question_choice_id]", {}, choice.id, false %><%= choice.body %>
+<div class="row">
+  <div class="col-md-6 question-item">
+    <li>
+      <p class="question-title"><%= question.body %></p>
+      <%= f.fields_for "#{question.id}".to_sym do |t| %>
+        <% case question.category
+          when 'input' %>
+          <%= t.text_field :body, placeholder: '回答', class: 'form-control' %>
+        <% when 'textarea' %>
+          <%= t.text_area :body, placeholder: '回答', class: 'form-control', rows: 8 %>
+        <% when 'selectbox' %>
+          <%= t.select :question_choice_id, @options[question.id].first.map {|choice| [choice.body, choice.id]},
+          {include_blank: true}, {} %>
+        <% when 'checkbox' %>
+          <% @options[question.id].first.each_with_index do |choice, index| %>
+            <%= t.check_box "#{index}[question_choice_id]", {}, choice.id, false %>
+            <span class="option-title"><%= choice.body %></span>
+          <% end %>
+        <% when 'radio' %>
+          <% @options[question.id].first.each do |choice| %>
+            <%= t.radio_button 'question_choice_id', choice.id, {} %>
+            <span class="option-title"><%= choice.body %></span>
+          <% end %>
+        <% end %>
+        <%= t.hidden_field :category, value: question.category %>
       <% end %>
-    <% when 'radio' %>
-      <% @options[question.id].first.each do |choice| %>
-        <%= t.radio_button 'question_choice_id', choice.id, {} %><%= choice.body %>
-      <% end %>
-    <% end %>
-    <%= t.hidden_field :category, value: question.category %>
-  <% end %>
-</li>
+      <hr>
+    </li>
+  </div>
+</div>

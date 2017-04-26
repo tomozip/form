@@ -1,3 +1,137 @@
 // Place all the styles related to the admins controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+$gray: #bdbdbd;
+$blue: #00b8d4;
+
+.title {
+  margin-bottom: 40px;
+}
+
+.line {
+  margin: 30px 0 50px;
+}
+
+.user-box {
+  text-align: right;
+}
+
+#admin_email,
+#admin_password {
+  border: none;
+  border-bottom: solid 1px $gray;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 30px;
+
+  &::-webkit-input-placeholder {
+    color: $gray;
+  }
+
+  &:focus {
+    &::-webkit-input-placeholder {
+      color: #e0e0e0;
+    }
+  }
+}
+
+.actions {
+  .btn {
+    font-size: 17px;
+    width: 100px;
+    margin-top: 20px;
+  }
+}
+
+// top page
+.admin-fix-box {
+  font-size: 24px;
+  color: $blue;
+  border-left: solid 1px $gray;
+  padding: 0 40px;
+  margin-left: 15px;
+}
+
+.admin-top-page {
+  padding-left: 0 !important;
+
+  #company_name,
+  #company_password {
+    margin-right: 15px;
+  }
+}
+
+// questionnaire index
+.questionnaire-index {
+  .btn-primary {
+    margin-top: 20px;
+  }
+
+  ul {
+    .btn {
+      margin-top: -5px;
+      float: right;
+    }
+  }
+
+  .panel-heading {
+    color: #607d8b !important;
+    font-size: 17px;
+  }
+}
+
+// create questionnaire
+.questionnaire-create {
+  .panel {
+    margin-top: 40px;
+
+    .panel-heading {
+      font-size: 17px;
+    }
+  }
+
+  .btn-primary {
+    margin-right: 20px;
+    width: 110px;
+  }
+
+  ol {
+    font-size: 18px;
+
+    .question-category {
+      font-size: 14px;
+    }
+
+    .question-item {
+      margin-bottom: 20px;
+
+      li {
+        font-size: 15px;
+      }
+    }
+  }
+
+  .add-title {
+    font-size: 19px;
+    color: $blue;
+  }
+
+  .btn-default {
+    margin-left: 15px;
+  }
+
+  #question-field-box {
+    textarea {
+      margin-bottom: 25px;
+      margin-top: 20px;
+    }
+
+    .btn-primary {
+      margin-right: 20px;
+      width: 96px;
+    }
+  }
+}

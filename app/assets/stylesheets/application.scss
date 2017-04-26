@@ -1,2 +1,104 @@
+// *= require_tree .
+// *= require_self
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
+
+$white: #fff;
+$gray: #f8f9fb;
+$alert: #f06292;
+$notice: #00b8d4;
+
+* {
+  box-sizing: border-box !important;
+}
+
+body {
+  overflow-x: hidden;
+  padding-bottom: 80px;
+}
+
+header {
+  background-color: $gray;
+  height: 60px;
+
+  .app-name {
+    font-size: 18px;
+    line-height: 44px;
+  }
+
+  nav {
+    height: 60px;
+    line-height: 60px;
+    padding: 0 20px;
+
+    li {
+      height: 60px;
+    }
+
+    .logo-box {
+      display: inline-block;
+    }
+
+    .link {
+      padding-top: 20px;
+    }
+
+    .mypage-box {
+      background-color: white;
+      padding: 9.5px 60px 9.5px 20px;
+      margin-right: -10px;
+
+      &:hover {
+        background-color: #e0f7fa !important;
+      }
+
+      .user-name {
+        margin-left: 20px;
+      }
+    }
+  }
+}
+
+.wrap-row {
+  overflow-y: hidden;
+}
+
+.row {
+  overflow-x: hidden;
+}
+
+.img-circle {
+  object-fit: cover;
+  background-color: #eceff1;
+}
+
+.main {
+  padding-top: 20px;
+  overflow-y: scroll;
+  height: 100%;
+}
+
+.alert {
+  background: $alert;
+  color: $white;
+  font-size: 17px;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 0 0 15px;
+  border-radius: 0;
+  width: 100%;
+}
+
+.notice {
+  background: $notice;
+  color: $white;
+  font-size: 17px;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 15px;
+  width: 100%;
+}
+
+.warning {
+  color: red;
+}

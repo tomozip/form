@@ -1,3 +1,257 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+$gray: #bdbdbd;
+$blue: #00b8d4;
+
+.title {
+  margin-bottom: 40px;
+}
+
+.line {
+  margin: 30px 0 50px;
+}
+
+.registar-box {
+  text-align: right;
+  .btn {
+    width: 124px;
+  }
+}
+
+#user_name,
+#user_email,
+#user_password,
+#user_password_confirmation {
+  border: none;
+  border-bottom: solid 1px $gray;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 30px;
+
+  &::-webkit-input-placeholder {
+    color: $gray;
+  }
+
+  &:focus {
+    &::-webkit-input-placeholder {
+      color: #e0e0e0;
+    }
+  }
+}
+
+.actions {
+  .btn {
+    font-size: 17px;
+    width: 100px;
+    margin-top: 20px;
+  }
+}
+
+.new-user-form {
+  #user_name,
+  #user_email,
+  #user_password,
+  #user_password_confirmation {
+    margin-bottom: 15px;
+  }
+}
+
+.belong-com {
+  color: #607d8b;
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.sub-title {
+  color: $blue;
+  margin-bottom: 35px;
+}
+
+.user-top-page {
+  .sub-title {
+    margin-top: 40px;
+    margin-bottom: 15px;
+  }
+}
+
+.message {
+  font-size: 17px;
+}
+
+.message-date {
+  color: #607d8b;
+  margin-left: 10px;
+}
+
+// 代表ページ
+
+.member-list {
+  max-height: 450px;
+  overflow-y: scroll;
+}
+
+.table {
+  .btn {
+    display: inline-block;
+    margin: 0;
+  }
+
+  .scope-row,
+  td {
+    line-height: 31px !important;
+  }
+}
+
+.message-wrap {
+  height: 500px;
+  overflow-y: hidden;
+
+  .btn-primary {
+    margin-top: 30px;
+    width: 100px;
+  }
+
+  .btn-sm {
+    margin-top: 0;
+    float: right;
+  }
+
+  .message-list {
+    max-height: 450px;
+    overflow-y: scroll;
+
+    ul {
+      padding-left: 0;
+    }
+  }
+}
+
+.message-li {
+  margin-bottom: 35px;
+
+  .message {
+    margin-top: 10px;
+  }
+
+  .user-name {
+    margin-left: 10px;
+    font-size: 17px;
+  }
+}
+
+.message-lists {
+  max-height: 600px;
+  overflow-y: scroll;
+  padding-left: 0;
+}
+
+// mypage
+.panel-title {
+  color: $blue !important;
+}
+
+.profile-img-title {
+  color: $blue;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.edit-user-form {
+  padding-left: 0 !important;
+
+  .col-md-12 {
+    margin-top: 15px;
+  }
+
+  i {
+    white-space: nowrap;
+  }
+}
+
+// questionnaire list
+.questionnaire-list {
+  .panel-heading {
+    color: #607d8b !important;
+    font-size: 17px;
+  }
+
+  .panel-body {
+    color: black !important;
+  }
+
+  .sub-title {
+    margin-top: 40px;
+    margin-bottom: 35px;
+  }
+
+  hr {
+    margin-top: 40px;
+  }
+}
+
+// answer new
+.option-title {
+  margin-left: 5px;
+  margin-right: 15px;
+  font-size: 17px;
+  color: #607d8b;
+}
+
+.question-panel {
+  margin-top: 40px;
+}
+
+.btn-back {
+  margin-top: 0;
+}
+
+.form-wrap {
+  font-size: 17px;
+
+  .question-title {
+    margin-top: 30px;
+  }
+
+  select {
+    font-size: 16px;
+  }
+
+  .row {
+    padding: 0 15px;
+  }
+
+  ol {
+    margin-bottom: 40px;
+  }
+
+  #normal {
+    width: 142px;
+    margin-right: 30px;
+  }
+}
+
+// result page
+.result-page {
+  .num-answered-user {
+    font-size: 22px;
+    color: $blue;
+    margin-left: 10px;
+    margin-right: 5px;
+  }
+
+  ol {
+    font-size: 17px;
+
+    .question-box {
+      margin-top: 30px;
+
+      .text-result {
+        font-size: 14px;
+        max-height: 340px;
+        overflow-x: scroll;
+        margin-top: 15px;
+      }
+    }
+  }
+}

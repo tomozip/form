@@ -1,5 +1,10 @@
-<li>
-  <%= message.body %>
-  <%= link_to '[削除]', user_message_path(params[:id], message.id), method: :delete, data: {confirm: '削除しますか？'} if action_name == 'manager' %>
-  <p><%= message.created_at %></p>
+<li class="message-li list-unstyled well">
+  <%= image_tag @manager.image.present? ? @manager.image.to_s : 'unknown.png', height: '40px', width: '40px', class: 'img-circle' %>
+  <span class="user-name"><%= @manager.name %></span>
+  <span class="message-date"><%= message.created_at.strftime('%Y/%m/%d %H:%M:%S') %></span>
+  <% if action_name == 'manager' %>
+    <%= link_to '削除', user_message_path(params[:id], message.id), method: :delete,
+    data: {confirm: '削除しますか？'}, class: 'btn btn-default btn-sm' %>
+  <% end %>
+  <p class="message"><%= message.body %></p>
 </li>

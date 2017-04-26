@@ -1,27 +1,36 @@
-<h2>管理者ログイン</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <% if devise_mapping.rememberable? -%>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+<div class="col-md-8 col-md-offset-2">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center title">管理者ログイン</h1>
     </div>
-  <% end -%>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
   </div>
-<% end %>
+  <div class="row">
+    <div class="col-md-4 col-md-offset-2 user-box">
+      <%= link_to '一般ユーザーログイン', new_user_session_path, class: 'btn btn-info' %>
+    </div>
+  </div>
+  <hr class="line">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="field row">
+          <div class="col-md-12"><%= f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'email', required: true %></div>
+        </div>
 
-<%= render "admins/shared/links" %>
-<%= link_to "一般ユーザーログイン", new_user_session_path %>
+        <div class="field row">
+          <div class="col-md-12"><%= f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: 'パスワード', required: true %></div>
+        </div>
+        <% if devise_mapping.rememberable? -%>
+          <div class="field">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me %>
+          </div>
+        <% end -%>
+
+        <div class="actions">
+          <%= f.submit "Log in", class: 'btn btn-primary' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

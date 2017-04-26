@@ -1,24 +1,25 @@
 <h1>アンケート結果ページ</h1>
-<p>
-  <%= link_to '[戻る]', if action_name == 'result'
-    questionnaires_path
-  else
-    questionnaire_list_user_questionnaires_path(params[:user_id])
-  end %>
-</p>
+<p><%= link_to '戻る', :back, class: 'btn btn-default' %></p>
 <hr>
-<h3>アンケート名: <%= @questionnaire.title %></h3>
-<p>アンケート概要: <%= @questionnaire.description %></p>
-<p>回答者数: <%= @results.first[1].length %></p>
-<ol>
-<% @questionnaire.questions.each do |question| %>
-  <li>
-    <p><%= question.body %></p>
-    <%= if question.category == 'input' || question.category == 'textarea'
-      render partial: 'questionnaires/text_result', locals: {question: question}
-    else
-      render partial: 'questionnaires/choice_result', locals: {question: question}
-    end %>
-  </li>
-<% end %>
-</ol>
+<section class="result-page">
+  <div class="panel panel-default panel-info">
+    <div class="panel-heading"><%= @questionnaire.title %></div>
+    <div class="panel-body"><%= @questionnaire.description %></div>
+    <div class="panel-footer">回答者数: <span class="num-answered-user"><%= @results.first[1].length %></span>人</div>
+  </div>
+  <ol>
+  <% @questionnaire.questions.each do |question| %>
+    <li class="question-box">
+      <span class="question-title"><%= question.body %></span>
+      <% if question.category == 'input' || question.category == 'textarea' %>
+        <div class="text-result">
+          <%= render partial: 'questionnaires/text_result', locals: {question: question} %>
+        </div>
+      <% else %>
+        <%= render partial: 'questionnaires/choice_result', locals: {question: question} %>
+      <% end %>
+      <hr>
+    </li>
+  <% end %>
+  </ol>
+</section>

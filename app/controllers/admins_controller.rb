@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class AdminsController < ApplicationController
+  before_action :block_user
+  before_action :authenticate_admin!
+
   def show
     @companies = Company.all
     @companies_users = []
@@ -12,6 +15,14 @@ class AdminsController < ApplicationController
       else
         @companies_users.push(nil)
       end
+    end
+  end
+
+  private
+  def block_user
+    if user_signed_in?
+      warning = '現在管理者としてログイン中です。一度ログアウトしてからユーザーログインしてください。'
+      redirect_to user_path(current_user.id), alert: warning
     end
   end
 end

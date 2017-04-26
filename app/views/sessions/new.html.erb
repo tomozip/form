@@ -1,8 +1,12 @@
 <h1>会社選択ページ</h1>
-<%= link_to '戻る', new_user_session_path %>
-<p>Find me in app/views/sessions/new.html.erb</p>
+<%= link_to '戻る', new_user_session_path, class: 'btn btn-default' %>
+<hr class="line2">
 <%= form_for :session, url: login_path do |f| %>
-    <%= f.select :company_id, @companies.map{|t| [t.name, t.id]} %>
-    <%= f.password_field :password, placeholder: 'パスワード' %>
-    <%= f.submit '新規登録ページへ' %>
+    <div class="col-md-4 select-wrap">
+      <%= f.select :company_id, @companies.map{|t| [t.name, t.id]}, {include_blank: '会社を選択してください。'},
+      {'class' => 'selectpicker form-control'} %>
+    </div>
+
+    <%= f.password_field :password, placeholder: 'パスワード', required: true, class: 'form-inline' %>
+    <%= f.submit '新規登録ページへ', class: 'btn btn-primary' %>
 <% end %>

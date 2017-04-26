@@ -1,49 +1,57 @@
-<li>
-  <p><%= question.body %></p>
-  <%= f.fields_for "#{question.id}".to_sym do |t| %>
-    <% case question.category
-      when 'input' %>
-      <% if @answered_question_ids.include?(question.id)
-        body = @answers[question.id.to_s][:body]
-      end %>
-      <%= t.text_field :body, placeholder: '回答', value: body %>
-    <% when 'textarea' %>
-      <% if @answered_question_ids.include?(question.id)
-        body = @answers[question.id.to_s][:body]
-      end %>
-      <%= t.text_area :body, placeholder: '回答', value: body %>
-    <% when 'selectbox' %>
-      <% if @answered_question_ids.include?(question.id) %>
-        <%= t.select :question_choice_id, @options[question.id].first.map {|choice| [choice.body, choice.id]},
-        {include_blank: true, selected: @answers[question.id.to_s][:question_choice_id]}, {} %>
-      <% else %>
-        <%= t.select :question_choice_id, @options[question.id].first.map {|choice| [choice.body, choice.id]},
-        {include_blank: true}, {} %>
+<div class="row">
+  <div class="col-md-6 question-item">
+    <li>
+      <p class="question-title"><%= question.body %></p>
+      <%= f.fields_for "#{question.id}".to_sym do |t| %>
+        <% case question.category
+          when 'input' %>
+          <% if @answered_question_ids.include?(question.id)
+            body = @answers[question.id.to_s][:body]
+          end %>
+          <%= t.text_field :body, placeholder: '回答', value: body, class: 'form-control' %>
+        <% when 'textarea' %>
+          <% if @answered_question_ids.include?(question.id)
+            body = @answers[question.id.to_s][:body]
+          end %>
+          <%= t.text_area :body, placeholder: '回答', value: body, class: 'form-control', rows: 8 %>
+        <% when 'selectbox' %>
+          <% if @answered_question_ids.include?(question.id) %>
+            <%= t.select :question_choice_id, @options[question.id].first.map {|choice| [choice.body, choice.id]},
+            {include_blank: true, selected: @answers[question.id.to_s][:question_choice_id]}, {} %>
+          <% else %>
+            <%= t.select :question_choice_id, @options[question.id].first.map {|choice| [choice.body, choice.id]},
+            {include_blank: true}, {} %>
+          <% end %>
+        <% when 'checkbox' %>
+          <% if @answered_question_ids.include?(question.id) %>
+            <% question_choice_ids = @answers[question.id.to_s][:question_choice_ids] %>
+            <% @options[question.id].first.each_with_index do |choice, index| %>
+              <%= t.check_box "#{index}[question_choice_id]", {checked: question_choice_ids.include?(choice.id)}, choice.id, false %>
+              <span class="option-title"><%= choice.body %></span>
+            <% end %>
+          <% else %>
+            <% @options[question.id].first.each_with_index do |choice, index| %>
+              <%= t.check_box "#{index}[question_choice_id]", {}, choice.id, false %>
+              <span class="option-title"><%= choice.body %></span>
+            <% end %>
+          <% end %>
+        <% when 'radio' %>
+          <% if @answered_question_ids.include?(question.id) %>
+            <% @options[question.id].first.each do |choice| %>
+              <% checked = @answers[question.id.to_s][:question_choice_id] == choice.id %>
+              <%= t.radio_button 'question_choice_id', choice.id, {checked: checked} %>
+              <span class="option-title"><%= choice.body %></span>
+            <% end %>
+          <% else %>
+            <% @options[question.id].first.each do |choice| %>
+              <%= t.radio_button 'question_choice_id', choice.id, {} %>
+              <span class="option-title"><%= choice.body %></span>
+            <% end %>
+          <% end %>
+        <% end %>
+        <%= t.hidden_field :category, value: question.category %>
       <% end %>
-    <% when 'checkbox' %>
-      <% if @answered_question_ids.include?(question.id) %>
-        <% question_choice_ids = @answers[question.id.to_s][:question_choice_ids] %>
-        <% @options[question.id].first.each_with_index do |choice, index| %>
-          <%= t.check_box "#{index}[question_choice_id]", {checked: question_choice_ids.include?(choice.id)}, choice.id, false %>
-          <%= choice.body %>
-        <% end %>
-      <% else %>
-        <% @options[question.id].first.each_with_index do |choice, index| %>
-          <%= t.check_box "#{index}[question_choice_id]", {}, choice.id, false %><%= choice.body %>
-        <% end %>
-      <% end %>
-    <% when 'radio' %>
-      <% if @answered_question_ids.include?(question.id) %>
-        <% @options[question.id].first.each do |choice| %>
-          <% checked = @answers[question.id.to_s][:question_choice_id] == choice.id %>
-          <%= t.radio_button 'question_choice_id', choice.id, {checked: checked} %><%= choice.body %>
-        <% end %>
-      <% else %>
-        <% @options[question.id].first.each do |choice| %>
-          <%= t.radio_button 'question_choice_id', choice.id, {} %><%= choice.body %>
-        <% end %>
-      <% end %>
-    <% end %>
-    <%= t.hidden_field :category, value: question.category %>
-  <% end %>
-</li>
+      <hr>
+    </li>
+  </div>
+</div>

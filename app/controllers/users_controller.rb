@@ -2,20 +2,14 @@
 
 class UsersController < ApplicationController
   before_action :log_out_company, only: [:show]
+  before_action :block_admin
   before_action :authenticate_user!
 
   def show
-    @position = CompaniesUser.find_by(user_id: params[:id]).manager
-    if @position == 'delegate'
-      @messages = Message.where(user_id: params[:id])
-    else
-      company_id = CompaniesUser.find_by(user_id: params[:id]).company_id
-      manager = CompaniesUser.find_by(company_id: company_id, manager: 'delegate')
-      unless manager.nil?
-        manager_id = CompaniesUser.find_by(company_id: company_id, manager: 'delegate').user_id
-        @messages = Message.where(user_id: manager_id)
-      end
-    end
+    company_id = CompaniesUser.find_by(user_id: current_user.id).company_id
+    @company = Company.find(company_id)
+    @manager = CompaniesUser.set_manager(company_id)
+    @messages = Message.where(user_id: @manager.id).order('created_at DESC') if @manager.present?
   end
 
   def destroy
@@ -29,6 +23,7 @@ class UsersController < ApplicationController
   end
 
   def manager
+    @manager = current_user
     @user = User.find(params[:id])
     # 会社情報
     company_id = CompaniesUser.find_by(user_id: params[:id]).company_id
@@ -41,6 +36,14 @@ class UsersController < ApplicationController
       @staffs.push(staff)
     end
     # メッセージ機能
-    @messages = Message.where(user_id: params[:id])
+    @messages = Message.where(user_id: current_user.id).order('created_at DESC')
+  end
+
+  private
+  def block_admin
+    if admin_signed_in?
+      warning = '現在管理者としてログイン中です。一度ログアウトしてからユーザーログインしてください。'
+      redirect_to admin_path(current_admin.id), alert: warning
+    end
   end
 end

@@ -1,23 +1,33 @@
 <h1>アンケートページ</h1>
-<%= link_to '[戻る]', user_path(params[:user_id]) %>
-<h3>回答済みアンケート</h3>
-<ul>
-  <% unless @questionnaires.nil? %>
-     <%= render partial: 'answers/devide_questionnaire', collection: @questionnaires[:answered], as: 'questionnaire', locals: {status: 'answered'} %>
-  <% end %>
-</ul>
 <hr>
-<h3>回答中アンケート</h3>
-<ul>
-  <% unless @questionnaires.nil? %>
-    <%= render partial: 'answers/devide_questionnaire', collection: @questionnaires[:answering], as: 'questionnaire', locals: {status: 'answering'} %>
-  <% end %>
-
-</ul>
-<hr>
-<h3>未回答アンケート</h3>
-<ul>
-  <% unless @questionnaires.nil? %>
-    <%= render partial: 'answers/devide_questionnaire', collection: @questionnaires[:not_yet], as: 'questionnaire', locals: {status: 'not_yet'} %>
-  <% end %>
-</ul>
+<section class="questionnaire-list">
+  <h3 class="sub-title">回答済みアンケート</h3>
+  <ul class="list-unstyled">
+    <%= if @questionnaires[:answered].present?
+      render partial: 'answers/devide_questionnaire', collection: @questionnaires[:answered],
+      as: 'questionnaire', locals: {status: 'answered'}
+    else
+      '回答済みアンケートはありません'
+    end %>
+  </ul>
+  <hr>
+  <h3 class="sub-title">回答中アンケート</h3>
+  <ul class="list-unstyled">
+    <%= if @questionnaires[:answering].present?
+      render partial: 'answers/devide_questionnaire', collection: @questionnaires[:answering],
+      as: 'questionnaire', locals: {status: 'answering'}
+    else
+      '回答中アンケートはありません'
+    end %>
+  </ul>
+  <hr>
+  <h3 class="sub-title">未回答アンケート</h3>
+  <ul class="list-unstyled">
+    <%= if @questionnaires[:not_yet].present?
+      render partial: 'answers/devide_questionnaire', collection: @questionnaires[:not_yet],
+      as: 'questionnaire', locals: {status: 'not_yet'}
+    else
+      '未回答アンケートはありません'
+    end %>
+  </ul>
+</section>
