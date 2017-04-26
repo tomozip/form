@@ -6,7 +6,6 @@ class QuestionnairesController < ApplicationController
   before_action :block_user, except: [:questionnaire_list]
   before_action :authenticate_admin!, except: [:questionnaire_list]
 
-
   def index
     @edit_questionnaires = Questionnaire.where(status: 'edit')
     @sent_questionnaires = Questionnaire.where(status: 'sent')
@@ -90,16 +89,14 @@ class QuestionnairesController < ApplicationController
   end
 
   def block_admin
-    if admin_signed_in?
-      warning = '現在管理者としてログイン中です。一度ログアウトしてからユーザーログインしてください。'
-      redirect_to admin_path(current_admin.id), alert: warning
-    end
+    return unless admin_signed_in?
+    warning = '現在管理者としてログイン中です。一度ログアウトしてからユーザーログインしてください。'
+    redirect_to admin_path(current_admin.id), alert: warning
   end
 
   def block_user
-    if user_signed_in?
-      warning = '現在管理者としてログイン中です。一度ログアウトしてからユーザーログインしてください。'
-      redirect_to user_path(current_user.id), alert: warning
-    end
+    return unless user_signed_in?
+    warning = '現在管理者としてログイン中です。一度ログアウトしてからユーザーログインしてください。'
+    redirect_to user_path(current_user.id), alert: warning
   end
 end

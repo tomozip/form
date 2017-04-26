@@ -40,11 +40,7 @@ class AnswersController < ApplicationController
 
   def show
     @questionnaire = Questionnaire.find(params[:questionnaire_id])
-    @results = CompaniesUser.prepare_member_results(
-      @questionnaire.questions,
-      params[:user_id],
-      params[:questionnaire_id]
-    )
+    @results = CompaniesUser.prepare_member_results(params[:user_id], params[:questionnaire_id])
     render 'questionnaires/result'
   end
 
@@ -75,9 +71,8 @@ class AnswersController < ApplicationController
   end
 
   def block_admin
-    if admin_signed_in?
-      warning = '現在管理者としてログイン中です。一度ログアウトしてからユーザーログインしてください。'
-      redirect_to admin_path(current_admin.id), alert: warning
-    end
+    return unless admin_signed_in?
+    warning = '現在管理者としてログイン中です。一度ログアウトしてからユーザーログインしてください。'
+    redirect_to admin_path(current_admin.id), alert: warning
   end
 end
