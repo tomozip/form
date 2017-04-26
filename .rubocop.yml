@@ -75,3 +75,15 @@ RSpec/InstanceVariable:
 # We allow to use this one for now.
 RSpec/AnyInstance:
   Enabled: false
+
+AsciiComments:
+  Enabled: false
+
+RSpec/EmptyLineAfterFinalLet:
+  Enabled: false
+
+RSpec/EmptyLineAfterSubject:
+  Enabled: false
+
+Style/CommentAnnotation:
+  Enabled: false

@@ -5,6 +5,11 @@ class Questionnaire < ApplicationRecord
   has_many :answers, dependent: :delete_all
   enum status: { 'editing' => 0, 'sent' => 1 }
 
+  validates :title, presence: true
+  validates :description, presence: true
+  validates :status, presence: true
+  validates :status, inclusion: { in: Questionnaire.statuses.keys }
+
   def self.prepare_questionnaire_list(answering_questionnaire_ids, answered_questionnaire_ids)
     questionnaires = Questionnaire.where(status: 'sent')
     list = { answered: [], answering: [], not_yet: [] }

@@ -12,4 +12,9 @@ class User < ApplicationRecord
   has_many :answers, dependent: :delete_all
   has_many :question_answers, dependent: :destroy
   mount_uploader :image, ImageUploader
+
+  validates :name, presence: true
+  validates :email, presence: true
+  validates :password, presence: true
+  validates :email, uniqueness: true
 end
