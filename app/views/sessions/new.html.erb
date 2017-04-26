@@ -3,7 +3,8 @@
 <hr class="line2">
 <%= form_for :session, url: login_path do |f| %>
     <div class="col-md-4 select-wrap">
-      <%= f.select :company_id, @companies.map{|t| [t.name, t.id]}, {include_blank: '会社を選択してください。'},
+      <% companies = Company.all.select(:id, :name) %>
+      <%= f.select :company_id, companies.map{|t| [t.name, t.id]}, {include_blank: '会社を選択してください。'},
       {'class' => 'selectpicker form-control'} %>
     </div>
 
