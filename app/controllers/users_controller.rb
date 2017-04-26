@@ -23,19 +23,8 @@ class UsersController < ApplicationController
   end
 
   def manager
-    @manager = current_user
-    @user = User.find(params[:id])
-    # 会社情報
-    company_id = CompaniesUser.find_by(user_id: params[:id]).company_id
-    @company = Company.find(company_id)
-    # 社員一覧を表示しようとしてる。
-    companies_users = CompaniesUser.where(company_id: company_id)
-    @staffs = []
-    companies_users.each do |companies_user|
-      staff = User.find(companies_user.user_id)
-      @staffs.push(staff)
-    end
-    # メッセージ機能
+    @company = current_user.companies_user.company
+    @staffs = @company.companies_users.map { |companies_user| companies_user.user }
     @messages = Message.where(user_id: current_user.id).order('created_at DESC')
   end
 
