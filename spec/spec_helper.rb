@@ -72,6 +72,8 @@ RSpec.configure do |config|
     config.include ::Rails::Controller::Testing::Integration, :type => type
   end
 
+  config.treat_symbols_as_metadata_keys_with_true_values = true
+
   # ファクトリを簡単に呼び出せるよう、FactoryGirlの構文をインクルードする
   config.include FactoryGirl::Syntax::Methods
 end

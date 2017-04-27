@@ -20,8 +20,7 @@ class QuestionnairesController < ApplicationController
   end
 
   def destroy
-    questionnaire = Questionnaire.find(params[:id])
-    questionnaire.destroy
+    Questionnaire.find(params[:id]).destroy!
     redirect_to questionnaires_path
   end
 
@@ -40,15 +39,9 @@ class QuestionnairesController < ApplicationController
   end
 
   def update_status
-    questionnaire = Questionnaire.find(params[:id])
-    questionnaire.status = 'sent'
-    if questionnaire.save
-      flash[:done] = 'アンケートを発行しました。'
-      redirect_to questionnaires_path
-    else
-      @questionnaire = Questionnaire.find(params[:id])
-      render 'show'
-    end
+    @questionnaire = Questionnaire.find(params[:id])
+    @questionnaire.update!(status: 'sent')
+    redirect_to questionnaires_path, notice: 'アンケートを発行しました。'
   end
 
   def questionnaire_list
@@ -73,7 +66,6 @@ class QuestionnairesController < ApplicationController
     answered_user_ids = Answer.where(questionnaire_id: params[:id], status: 'answered')
                               .pluck(:user_id)
     @results = Answer.prepare_answer_result(@questionnaire.questions, answered_user_ids)
-    render 'result'
   end
 
   private
