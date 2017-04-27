@@ -24,8 +24,7 @@ class CompaniesUser < ApplicationRecord
   end
 
   def self.set_manager(company_id)
-    manager_id = CompaniesUser.find_by(company_id: company_id, manager: 'delegate').user_id
-    User.find(manager_id)
+  CompaniesUser.find_by(company_id: company_id, manager: 'delegate').try(:user)
   end
 
   def appoint_delegate?

@@ -74,6 +74,15 @@ RSpec.configure do |config|
 
   config.treat_symbols_as_metadata_keys_with_true_values = true
 
+  config.after do |example|
+    if example.metadata[:type] == :feature and example.exception.present? and example.metadata[:open_on_error] == true
+      save_and_open_page
+    end
+  end
+
+  # redirectできるように
+  include Rack::Test::Methods
+
   # ファクトリを簡単に呼び出せるよう、FactoryGirlの構文をインクルードする
   config.include FactoryGirl::Syntax::Methods
 end
