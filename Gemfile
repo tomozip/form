@@ -40,14 +40,18 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'factory_girl_rails', '~> 4.2.1'
-  gem 'rspec-rails', '~> 2.14.0'
+  gem 'pry-rails' # rails console(もしくは、rails c)でirbの代わりにpryを使われる
+  gem 'rspec-rails', '~> 3.1.0'
 end
 
 group :test do
-  gem 'capybara', '~> 2.1.0'
+  gem 'capybara'
   gem 'database_cleaner', '~> 1.0.1'
   gem 'faker', '~> 1.1.2'
   gem 'launchy', '~> 2.3.0'
+  gem 'rails-controller-testing'
+  gem 'rspec', '~> 3.1.0'
+  gem 'rspec-core', '~> 3.1.0'
   gem 'selenium-webdriver', '~> 2.39.0'
 end
 
@@ -65,11 +69,7 @@ group :development do
 
   gem 'pry-byebug' # デバッグを実施(Ruby 2.0以降で動作する)
   gem 'pry-doc'    # methodを表示
-  gem 'pry-rails'  # rails console(もしくは、rails c)でirbの代わりにpryを使われる
   gem 'pry-stack_explorer' # スタックをたどれる
-
-  # Devise
-  gem 'devise'
 
   gem 'rubocop', require: false
 end
@@ -86,3 +86,7 @@ gem 'bootstrap-sass'
 gem 'rubocop-rspec'
 
 gem 'chartkick'
+
+# Devise
+gem 'devise', github: 'plataformatec/devise', branch: 'master'
+gem 'omniauth'

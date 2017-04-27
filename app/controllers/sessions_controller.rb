@@ -6,7 +6,6 @@ class SessionsController < ApplicationController
   end
 
   def new
-    @companies = Company.all.select(:id, :name)
   end
 
   def create
@@ -17,7 +16,6 @@ class SessionsController < ApplicationController
       redirect_to new_user_registration_path
     else
       flash.now[:alert] = 'パスワードが間違っています。'
-      @companies = Company.all.select(:id, :name)
       render 'new'
     end
   end

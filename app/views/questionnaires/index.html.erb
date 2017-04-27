@@ -17,12 +17,14 @@
   <hr>
   <h3 class="sub-title">作成中アンケート</h3>
   <ul class="list-unstyled">
-    <%= render partial: 'devide_questionnaire', collection: @edit_questionnaires, as: 'questionnaire' %>
+    <% edit_questionnaires = Questionnaire.where(status: 'editing') %>
+    <%= render partial: 'devide_questionnaire', collection: edit_questionnaires, as: 'questionnaire' %>
   </ul>
   <hr>
   <h3 class="sub-title">発行済みアンケート</h3>
   <ul class="list-unstyled">
-    <%= render partial: 'devide_questionnaire', collection: @sent_questionnaires, as: 'questionnaire' %>
+    <% sent_questionnaires = Questionnaire.where(status: 'sent') %>
+    <%= render partial: 'devide_questionnaire', collection: sent_questionnaires, as: 'questionnaire' %>
   </ul>
 </section>
 <hr>

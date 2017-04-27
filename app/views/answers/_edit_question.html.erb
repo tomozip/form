@@ -16,34 +16,34 @@
           <%= t.text_area :body, placeholder: '回答', value: body, class: 'form-control', rows: 8 %>
         <% when 'selectbox' %>
           <% if @answered_question_ids.include?(question.id) %>
-            <%= t.select :question_choice_id, @options[question.id].first.map {|choice| [choice.body, choice.id]},
+            <%= t.select :question_choice_id, @options[question.id.to_s].map {|choice| [choice.body, choice.id]},
             {include_blank: true, selected: @answers[question.id.to_s][:question_choice_id]}, {} %>
           <% else %>
-            <%= t.select :question_choice_id, @options[question.id].first.map {|choice| [choice.body, choice.id]},
+            <%= t.select :question_choice_id, @options[question.id.to_s].map {|choice| [choice.body, choice.id]},
             {include_blank: true}, {} %>
           <% end %>
         <% when 'checkbox' %>
           <% if @answered_question_ids.include?(question.id) %>
             <% question_choice_ids = @answers[question.id.to_s][:question_choice_ids] %>
-            <% @options[question.id].first.each_with_index do |choice, index| %>
+            <% @options[question.id.to_s].each_with_index do |choice, index| %>
               <%= t.check_box "#{index}[question_choice_id]", {checked: question_choice_ids.include?(choice.id)}, choice.id, false %>
               <span class="option-title"><%= choice.body %></span>
             <% end %>
           <% else %>
-            <% @options[question.id].first.each_with_index do |choice, index| %>
+            <% @options[question.id.to_s].each_with_index do |choice, index| %>
               <%= t.check_box "#{index}[question_choice_id]", {}, choice.id, false %>
               <span class="option-title"><%= choice.body %></span>
             <% end %>
           <% end %>
         <% when 'radio' %>
           <% if @answered_question_ids.include?(question.id) %>
-            <% @options[question.id].first.each do |choice| %>
+            <% @options[question.id.to_s].each do |choice| %>
               <% checked = @answers[question.id.to_s][:question_choice_id] == choice.id %>
               <%= t.radio_button 'question_choice_id', choice.id, {checked: checked} %>
               <span class="option-title"><%= choice.body %></span>
             <% end %>
           <% else %>
-            <% @options[question.id].first.each do |choice| %>
+            <% @options[question.id.to_s].each do |choice| %>
               <%= t.radio_button 'question_choice_id', choice.id, {} %>
               <span class="option-title"><%= choice.body %></span>
             <% end %>
