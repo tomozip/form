@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
   factory :company do
-    name "MyString"
-    url "MyString"
+    name { Faker::Name.name }
+    password 'MyString'
   end
 end

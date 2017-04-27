@@ -6,27 +6,21 @@ class QuestionnairesController < ApplicationController
   before_action :block_user, except: [:questionnaire_list]
   before_action :authenticate_admin!, except: [:questionnaire_list]
 
-
   def index
-    @edit_questionnaires = Questionnaire.where(status: 'edit')
-    @sent_questionnaires = Questionnaire.where(status: 'sent')
     @questionnaire = Questionnaire.new
   end
 
   def create
     @questionnaire = Questionnaire.new(questionnaire_params)
     if @questionnaire.save
-      redirect_to questionnaire_path(@questionnaire.id)
-      flash[:done] = '新規アンケートを作成しました。質問を追加して、[確定]ボタンで送信してください。'
+      redirect_to questionnaire_path(@questionnaire.id), notice: '新規アンケートを作成しました。質問を追加して、[発行]ボタンで送信してください。'
     else
-      @questionnaires = Questionnaire.all
       render 'index'
     end
   end
 
   def destroy
-    questionnaire = Questionnaire.find(params[:id])
-    questionnaire.destroy
+    Questionnaire.find(params[:id]).destroy!
     redirect_to questionnaires_path
   end
 
@@ -45,32 +39,24 @@ class QuestionnairesController < ApplicationController
   end
 
   def update_status
-    questionnaire = Questionnaire.find(params[:id])
-    questionnaire.status = 'sent'
-    if questionnaire.save
-      flash[:done] = 'アンケートを発行しました。'
-      redirect_to questionnaires_path
-    else
-      @questionnaire = Questionnaire.find(params[:id])
-      render 'show'
-    end
+    @questionnaire = Questionnaire.find(params[:id])
+    @questionnaire.update!(status: 'sent')
+    redirect_to questionnaires_path, notice: 'アンケートを発行しました。'
   end
 
   def questionnaire_list
     answers = Answer.where(user_id: params[:user_id])
-    answering_questionnaire_ids = []
-    answered_questionnaire_ids = []
-    answers.each do |answer|
+    questionnaire_ids = answers.each_with_object({}) do |answer, hash|
       questionnaire_id = answer.questionnaire_id
       if answer.status == 'answering'
-        answering_questionnaire_ids.push(questionnaire_id)
+        hash[:answering].try(:push, questionnaire_id) || hash[:answering] = [questionnaire_id]
       else
-        answered_questionnaire_ids.push(questionnaire_id)
+        hash[:answered].try(:push, questionnaire_id) || hash[:answered] = [questionnaire_id]
       end
     end
     @questionnaires = Questionnaire.prepare_questionnaire_list(
-      answering_questionnaire_ids,
-      answered_questionnaire_ids
+      questionnaire_ids[:answering],
+      questionnaire_ids[:answered]
     )
     render 'answers/questionnaire_list'
   end
@@ -80,7 +66,6 @@ class QuestionnairesController < ApplicationController
     answered_user_ids = Answer.where(questionnaire_id: params[:id], status: 'answered')
                               .pluck(:user_id)
     @results = Answer.prepare_answer_result(@questionnaire.questions, answered_user_ids)
-    render 'result'
   end
 
   private
@@ -90,16 +75,14 @@ class QuestionnairesController < ApplicationController
   end
 
   def block_admin
-    if admin_signed_in?
-      warning = '現在管理者としてログイン中です。一度ログアウトしてからユーザーログインしてください。'
-      redirect_to admin_path(current_admin.id), alert: warning
-    end
+    return unless admin_signed_in?
+    warning = '現在管理者としてログイン中です。一度ログアウトしてからユーザーログインしてください。'
+    redirect_to admin_path(current_admin.id), alert: warning
   end
 
   def block_user
-    if user_signed_in?
-      warning = '現在管理者としてログイン中です。一度ログアウトしてからユーザーログインしてください。'
-      redirect_to user_path(current_user.id), alert: warning
-    end
+    return unless user_signed_in?
+    warning = 'ユーザーとしてログイン中です。一度ログアウトしてから管理者ログインしてください。'
+    redirect_to user_path(current_user.id), alert: warning
   end
 end

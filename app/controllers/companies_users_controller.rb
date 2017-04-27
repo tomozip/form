@@ -3,11 +3,9 @@
 class CompaniesUsersController < ApplicationController
   def index
     @company = Company.find(params[:company_id])
-    companies_users = CompaniesUser.where(company_id: params[:company_id])
-    @has_manager = companies_users.any? { |cu| cu.manager == 'delegate' }
-    @users = companies_users.map do |cu|
-      user = User.find(cu.user_id)
-      { info: user, manager: cu.manager, companies_user_id: cu.id }
+    @has_manager = @company.companies_users.any? { |cu| cu.manager == 'delegate' }
+    @users = @company.companies_users.map do |cu|
+      { info: cu.user, manager: cu.manager, companies_user_id: cu.id }
     end
   end
 
