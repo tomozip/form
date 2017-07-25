@@ -1,0 +1,8 @@
+<h1>会社選択ページ</h1>
+<%= link_to '戻る', new_user_session_path %>
+<p>Find me in app/views/sessions/new.html.erb</p>
+<%= form_for :session, url: login_path do |f| %>
+    <%= f.select :company_id, @companies.map{|t| [t.name, t.id]} %>
+    <%= f.password_field :password, placeholder: 'パスワード' %>
+    <%= f.submit '新規登録ページへ' %>
+<% end %>

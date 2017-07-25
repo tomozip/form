@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'messages/create'
+
   get 'users/show'
 
   get 'companies_users/index'
@@ -23,9 +25,16 @@ Rails.application.routes.draw do
       get 'registarManager', on: :member
     end
   end
-  resources :users, only: [:show] do
+  resources :users, only: [:show, :destroy] do
     get 'mypage', on: :member
+    get 'manager', on: :member
+    resources :messages, only: [:create, :destroy]
   end
+
+  get    'login'   => 'sessions#new'
+  post   'login'   => 'sessions#create'
+  delete 'logout'  => 'sessions#destroy'
+
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
